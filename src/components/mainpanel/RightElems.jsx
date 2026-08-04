@@ -1,21 +1,29 @@
 import React from 'react';
-import StatsBox from '../mainpanel/StatsBox';
-import SequencePanel from '../mainpanel/SequencePanel';
+import StatsBox from './StatsBox';
+import SequencePanel from './SequencePanel';
 import './RightElems.css';
 
-/** Wrapper for rightmost items (player/trace log) */
 export default function RightElems({
-  lruStats,
-  mruStats,
-  sequenceData,
+  lruStats = null,
+  mruStats = null,
+  sequenceData = [],
+  isRandom = false,
+  onRegenerate,
 }) {
   return (
     <div className="right-elems">
+      {/* 1. STATS BOX */}
       <div className="stats-section">
         <StatsBox lruStats={lruStats} mruStats={mruStats} />
       </div>
+
+      {/* 2. SEQUENCE PANEL */}
       <div className="sequence-section">
-        <SequencePanel data={sequenceData} />
+        <SequencePanel 
+          sequence={sequenceData} 
+          isRandom={isRandom}
+          onRegenerate={onRegenerate}
+        />
       </div>
     </div>
   );

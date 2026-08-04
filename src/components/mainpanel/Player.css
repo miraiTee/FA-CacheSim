@@ -3,7 +3,7 @@
 
 .player-panel-container {
   width: 100%;
-  margin-top: 1.5rem;
+  box-sizing: border-box;
 }
 
 /* Card Container */
@@ -11,17 +11,18 @@
   position: relative;
   border: 1.5px solid #5D1838;
   background-color: #FFFDF8;
-  padding: 1.2rem 0.8rem 0.6rem 0.8rem; /* Slight top padding increase to accommodate larger tab */
+  padding: 1.1rem 0.8rem 0.5rem 0.8rem;
   box-shadow: 3px 3px 0px rgba(93, 24, 56, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.4rem;
+  box-sizing: border-box;
 }
 
 /* Hanging Bookmark Tag */
 .player-bookmark-bar {
   position: absolute;
-  top: -14px; /* Shifted up slightly to account for taller 24px font height */
+  top: -14px;
   left: 12px;
   display: flex;
   align-items: center;
@@ -34,35 +35,35 @@
   color: #FFFDF8;
   font-family: 'VT323', monospace;
   font-size: 24px;
-  line-height: 0.85;       /* Tightened line-height to remove excess pixel-font padding */
-  padding: 3px 10px 1px;  /* Adjusted top/bottom padding to center the text visually */
+  line-height: 0.85;
+  padding: 3px 10px 1px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-radius: 1px;
   pointer-events: auto;
   border: 1px solid #5D1838;
-  outline: 2px solid #FFFDF8; /* Carves out top border */
+  outline: 2px solid #FFFDF8;
 }
 
-/* Timeline Scrubber */
+/* Timeline Scrubber (Disabled / Read-Only Progress Bar) */
 .player-scrubber-wrapper {
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 0.2rem 0;
+  padding: 0.1rem 0;
 }
 
 .player-timeline-scrubber {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 4px;
-  background: rgba(93, 24, 56, 0.2);
+  height: 5px;
+  background: rgba(93, 24, 56, 0.15);
   outline: none;
-  cursor: pointer;
+  cursor: default;
 }
 
-/* Scrubber Thumb */
+/* Scrubber Thumb for Disabled Read-Only View */
 .player-timeline-scrubber::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -72,17 +73,12 @@
   border: 1px solid #FFFDF8;
   border-radius: 50%;
   box-shadow: 1px 1px 0px rgba(93, 24, 56, 0.4);
-  cursor: pointer;
-  transition: transform 0.1s ease;
-}
-
-.player-timeline-scrubber::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+  cursor: default;
 }
 
 .player-timeline-scrubber:disabled::-webkit-slider-thumb {
-  background: rgba(93, 24, 56, 0.3);
-  cursor: not-allowed;
+  background: #5D1838;
+  cursor: default;
 }
 
 /* Controls Row */
@@ -90,7 +86,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.2rem; 
 }
 
 .player-button-group {
@@ -98,16 +93,16 @@
   gap: 0.5rem;
 }
 
-/* Player Buttons (<, >, etc.) */
+/* Player Button (Play / Pause Only) */
 .player-btn {
-  font-family: 'Share Tech Mono', monospace;;
-  font-size: 16px;            
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;            
   font-weight: 700;          
   color: #FFFDF8;
   background-color: #5D1838;
   border: 1px solid #5D1838;
-  padding: 6px 14px;          /* Increased padding for bigger click area */
-  min-width: 32px;            /* Ensures square/consistent button sizing */
+  padding: 4px 12px;
+  min-width: 36px;
   cursor: pointer;
   box-shadow: 2px 2px 0px rgba(93, 24, 56, 0.2);
   transition: all 0.1s ease;
@@ -124,18 +119,20 @@
 .player-btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .player-counter {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 16px;            
+  font-size: 14px;            
   font-weight: 700;
   color: #5D1838;
   letter-spacing: 0.8px;
 }
 
 .player-step-num {
-  font-size: 16px;  
+  font-size: 14px;  
   font-family: 'Share Tech Mono', monospace;          
   text-decoration: underline;
+  color: #903643;
 }

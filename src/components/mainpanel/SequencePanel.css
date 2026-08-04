@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   flex: 1;
-  min-height: 0; /* CRITICAL: Enables scrolling instead of pushing parent height */
+  min-height: 0;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -16,13 +16,13 @@
   position: relative;
   border: 1.5px solid #5D1838;
   background-color: #FFFDF8;
-  padding: 1.2rem 0.8rem 0.5rem 0.8rem;
+  padding: 1.2rem 0.8rem 0.6rem 0.8rem;
   box-shadow: 3px 3px 0px rgba(93, 24, 56, 0.15);
   height: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  min-height: 0; /* CRITICAL */
+  min-height: 0;
 }
 
 /* Bookmark Tab Header */
@@ -50,24 +50,27 @@
   pointer-events: auto;
 }
 
-/* Scrollable Inner Body Stream */
+/* Horizontal Scrollable Body Stream */
 .stream-container {
   flex: 1;
-  min-height: 0; /* CRITICAL */
-  overflow-y: auto; /* SCROLLBAR HERE */
+  min-height: 0;
+  width: 100%;
+  overflow-x: auto; /* Enables horizontal scrolling for sequence items */
+  overflow-y: hidden;
   margin-top: 0.2rem;
-  padding-right: 0.3rem;
+  padding-bottom: 0.4rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: nowrap; /* Keeps items in a single horizontal line */
+  align-items: center;
   gap: 0.4rem;
-  align-content: flex-start; /* Keeps tiles pinned to top when stream is short */
   scrollbar-width: thin;
   scrollbar-color: #5D1838 #FBFAF0;
 }
 
-/* Custom Webkit Retro Scrollbar */
+/* Custom Webkit Retro Scrollbar for Horizontal Scroll */
 .stream-container::-webkit-scrollbar {
-  width: 6px;
+  height: 6px;
 }
 
 .stream-container::-webkit-scrollbar-track {
@@ -84,7 +87,6 @@
   font-size: 10px;
   color: rgba(93, 24, 56, 0.4);
   font-style: italic;
-  margin-top: 0.2rem;
 }
 
 .seq-tile {
@@ -95,6 +97,7 @@
   align-items: center;
   justify-content: center;
   height: fit-content;
+  flex-shrink: 0; /* Prevents tiles from squishing horizontally */
 }
 
 .seq-val {

@@ -24,12 +24,16 @@ export default function Configs({ config, onRunSimulation }) {
             [name]: parsedValue
         };
 
-        // Notify parent immediately on change
-        onRunSimulation(updatedConfig);
+        // Check if the user specifically changed the sequence selection
+        const isSequenceSelection = name === 'sequence';
+
+        // Notify parent with updated config and sequence flag
+        onRunSimulation(updatedConfig, isSequenceSelection);
     };
 
     const handleRun = () => {
-        onRunSimulation(config);
+        // Run button click passes false so it runs without re-rolling RNG
+        onRunSimulation(config, false);
     };
 
     return (
@@ -79,9 +83,9 @@ export default function Configs({ config, onRunSimulation }) {
             <div className="field">
                 <label>Sequence:</label>
                 <select name="sequence" value={config.sequence} onChange={handleChange}>
-                    <option value={SEQUENCE.A}>Sequential (A)</option>
-                    <option value={SEQUENCE.B}>Mid-Repeat (B)</option>
-                    <option value={SEQUENCE.C}>Random (C)</option>
+                    <option value={SEQUENCE.A}>Sequential</option>
+                    <option value={SEQUENCE.B}>Mid-Repeat</option>
+                    <option value={SEQUENCE.C}>Random</option>
                 </select>
             </div>
 

@@ -96,9 +96,29 @@
   align-items: center;
   gap: 0.4rem;
   overflow-x: auto;
+  overflow-y: hidden;
   padding: 0.2rem 0;
   scrollbar-width: thin;
+  scrollbar-color: #5D1838 #FFFDF8;
   width: 100%;
+}
+
+.stream-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.stream-container::-webkit-scrollbar-track {
+  background: #FFFDF8;
+  border: 1px solid rgba(93, 24, 56, 0.2);
+}
+
+.stream-container::-webkit-scrollbar-thumb {
+  background-color: #5D1838;
+  border-radius: 0px;     
+}
+
+.stream-container::-webkit-scrollbar-thumb:hover {
+  background-color: #7A224B;
 }
 
 .empty-snippet {
@@ -180,6 +200,26 @@
   padding: 1rem;
   overflow-y: auto;
   flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #5D1838 #FFFDF8;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #FFFDF8;
+  border-left: 1px solid rgba(93, 24, 56, 0.2);
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: #5D1838;
+  border-radius: 0px;       
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background-color: #7A224B;
 }
 
 .sequence-grid {

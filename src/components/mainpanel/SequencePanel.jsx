@@ -5,12 +5,12 @@ export default function SequencePanel({ sequence = [] }) {
   return (
     <div className="panel-container">
       <div className="panel">
-        {/* Title */}
+        {/* Bookmark Tab Header */}
         <div className="bookmark-bar">
           <div className="bookmark-tab">SEQUENCE</div>
         </div>
 
-        {/* Dynamic Stream Container */}
+        {/* Dynamic Horizontal Scrollable Stream */}
         <div className="stream-container">
           {sequence.length === 0 ? (
             <span className="empty-sequence-text">No sequence detected.</span>

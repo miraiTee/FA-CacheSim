@@ -10,12 +10,10 @@ export default function CenterElems({
 }) {
   return (
     <div className="main-panel">
-      {/* 1. Player Controls */}
       <section className="player-section">
-        <Player {...playerProps} />
+        <Player playerProps={playerProps} />
       </section>
 
-      {/* 2. Trace Log (Expands vertically) */}
       <section className="trace-section">
         <TraceLog sequence={traceLogs} />
       </section>
