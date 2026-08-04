@@ -2,6 +2,8 @@
 
 ## Wesbite link: https://miraitee.github.io/FA-CacheSim/
 
+## Demo: https://www.youtube.com/watch?v=WUZgR449iUI
+
 ###  GROUP 6 - Cache Machine comparison between Full Associative Least Recently Used vs Full Associative Most Recently Used.
 The project's main idea is to compare the stats of the LRU and MRU algorithm and to allow visualization of the mechanism behind it.
 Tracking the recency is very crucial for Full Associative.
