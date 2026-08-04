@@ -199,3 +199,137 @@ function runCacheSimulation(params) {
         associativity: associativity || 0
     };
 }
+
+function formatWay(mappingType, setIndex, position) {
+    if (mappingType === 'set-associative') {
+        return `S${setIndex}W${position}`;
+    }
+    if (mappingType === 'direct') {
+        return `B${setIndex}`;
+    }
+    return position === null || position === undefined ? 'N/A' : `W${position}`;
+}
+
+function simulateCacheWithLogs(params) {
+    const {
+        sequence,
+        cacheBlocks,
+        mappingType,
+        replacementPolicy,
+        cacheAccessTime = 10,
+        memoryAccessTime = 100,
+        readPolicy,
+        associativity = 0
+    } = params;
+
+    let hitCount = 0;
+    let logs = [];
+
+    let cache = [];
+    let numSets = 1;
+
+    if (mappingType === 'set-associative') {
+        numSets = Math.max(1, Math.floor(cacheBlocks / associativity));
+        cache = Array.from({ length: numSets }, () => []);
+    } else if (mappingType === 'direct') {
+        numSets = cacheBlocks;
+        cache = Array.from({ length: numSets }, () => []);
+    }
+
+    for (let step = 0; step < sequence.length; step++) {
+        const block = sequence[step];
+        let cacheToUse;
+        let blockIndex;
+        let setIndex = null;
+        let way = null;
+        let evicted = null;
+        let result;
+
+        if (mappingType === 'set-associative' || mappingType === 'direct') {
+            setIndex = block % numSets;
+            cacheToUse = cache[setIndex];
+            blockIndex = cacheToUse.indexOf(block);
+        } else {
+            // Full Associative
+            cacheToUse = cache;
+            blockIndex = cacheToUse.indexOf(block);
+        }
+
+        if (blockIndex !== -1) {
+            // HIT
+            hitCount++;
+            result = 'HIT';
+
+            if (mappingType === 'direct') {
+                way = formatWay(mappingType, setIndex, 0);
+            } else {
+                way = formatWay(mappingType, setIndex, blockIndex);
+                cacheToUse.splice(blockIndex, 1);
+                cacheToUse.push(block);
+            }
+        } else {
+            // MISS
+            result = 'MISS';
+
+            if (mappingType === 'direct') {
+                if (cacheToUse.length > 0) {
+                    evicted = cacheToUse.pop();
+                }
+                cacheToUse.push(block);
+                way = formatWay(mappingType, setIndex, 0);
+            } else {
+                const maxCapacity = mappingType === 'set-associative' ? associativity : cacheBlocks;
+
+                if (cacheToUse.length < maxCapacity) {
+                    // Cache line/way is available
+                    cacheToUse.push(block);
+                    way = formatWay(mappingType, setIndex, cacheToUse.length - 1);
+                } else {
+                    // Eviction required
+                    if (replacementPolicy === 'MRU') {
+                        evicted = cacheToUse.pop(); // Remove most recently used (end of array)
+                    } else {
+                        evicted = cacheToUse.shift(); // Remove least recently used (start of array)
+                    }
+                    cacheToUse.push(block);
+                    way = formatWay(mappingType, setIndex, cacheToUse.length - 1);
+                }
+            }
+        }
+
+        logs.push({
+            step: step + 1,
+            blk: block,
+            policy: replacementPolicy,
+            way,
+            result,
+            evict: evicted !== null ? evicted : 'N/A'
+        });
+    }
+
+    const totalAccess = totalAccessCount(sequence);
+    const missCnt = missCount(totalAccess, hitCount);
+    const hRate = hitRate(hitCount, totalAccess);
+    const mRate = missRate(hRate);
+    const missPenalty = memoryAccessTime;
+    const amat = AMAT(cacheAccessTime, mRate, missPenalty);
+    const tmat = TMAT(totalAccess, amat);
+
+    return {
+        totalAccess,
+        hitCount,
+        missCount: missCnt,
+        hitRate: hRate,
+        missRate: mRate,
+        AMAT: amat,
+        TMAT: tmat,
+        cacheAccessTime,
+        missPenalty,
+        mappingType,
+        replacementPolicy,
+        readPolicy,
+        cacheBlocks,
+        associativity: associativity || 0,
+        logs
+    };
+}
