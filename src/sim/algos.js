@@ -2,6 +2,10 @@ const cacheAccessTime = 10;
 const memoryAccessTime = 100;
 const missPenalty = memoryAccessTime;
 
+function totalAccessCount(sequence) {
+    return sequence.length;
+}
+
 function hitRate(hitCount, totalAccess) {
     if (totalAccess === 0) return 0;
     return hitCount / totalAccess;
@@ -9,6 +13,10 @@ function hitRate(hitCount, totalAccess) {
 
 function missRate(hitRate) {
     return 1 - hitRate;
+}
+
+function missCount(totalAccess, hitCount) {
+    return totalAccess - hitCount;
 }
 
 function TMAT(totalAccess, AMAT) {
