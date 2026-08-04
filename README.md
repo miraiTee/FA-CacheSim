@@ -21,7 +21,7 @@ Report:
 
 Given the specifications, the user may adjust for the configurations at the bottom left corner such as. 
 - Block Size (words)
-- # of Cache Blocks
+- Number of Cache Blocks
 - Read Policy (Load-through/Non-load-through)
 - Sequence based on specs ()
 - a. Sequential sequence: Access up to 2n cache blocks. Repeat the sequence two times.
@@ -42,3 +42,10 @@ Statistical outputs are as of follow:
 6) Average Memory Access Time; 
 7) Total memory access time
 
+<img width="1704" height="1006" alt="image" src="https://github.com/user-attachments/assets/854c5fb9-1c3f-4532-ab32-7f8917e306dc" />
+<img width="1725" height="1013" alt="image" src="https://github.com/user-attachments/assets/e7cd25c2-9c58-4127-9d0d-7fe0c303a3bf" />
+<img width="1725" height="1013" alt="image" src="https://github.com/user-attachments/assets/616737bf-5222-4235-9d70-f6da2c463c67" />
+
+
+
+![Uploading image.png…]()
