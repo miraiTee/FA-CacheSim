@@ -10,12 +10,12 @@ export default function StatsBox({
     <div className="stats-container">
       <div className="stats-box">
         {/* TOP ROW */}
-        <div className="stats-row-grid">
           <StatTracker
-            title="Ave. Memory Time Access"
-            lru={lruStats.amat ?? "0.00 ns"}
-            mru={mruStats.amat ?? "0.00 ns"}
+            title="Tot. Memory Time Access"
+            lru={lruStats.totalTime ?? "0 ns"}
+            mru={mruStats.totalTime ?? "0 ns"}
           />
+        <div className="stats-row-grid">
           <StatTracker
             title="Cache Hit"
             lru={lruStats.hits ?? 0}
@@ -33,9 +33,9 @@ export default function StatsBox({
         {/* BOTTOM ROW */}
         <div className="stats-row-grid">
           <StatTracker
-            title="Tot. Memory Time Access"
-            lru={lruStats.totalTime ?? "0 ns"}
-            mru={mruStats.totalTime ?? "0 ns"}
+            title="Ave. Memory Time Access"
+            lru={lruStats.amat ?? "0.00 ns"}
+            mru={mruStats.amat ?? "0.00 ns"}
           />
           <StatTracker
             title="Hit Rate"
