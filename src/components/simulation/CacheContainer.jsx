@@ -1,5 +1,6 @@
 import React from 'react';
 import CacheList from './CacheList';
+import './CacheComponents.css';
 
 export default function CacheContainer({
   policy = 'LRU',

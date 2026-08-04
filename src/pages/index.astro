@@ -1,12 +1,4 @@
 ---
-import '../index.css';
-import '../components/simulation/CacheComponents.css';
-
-import Configs from '../components/Configs.jsx';
-import CenterElems from '../components/mainpanel/CenterElems.jsx';
-import RightElems from '../components/mainpanel/RightElems.jsx';
-import CacheContainer from '../components/simulation/CacheContainer.jsx';
-
 import Simulation from '../components/Simulation.jsx';
 ---
 
@@ -19,8 +11,6 @@ import Simulation from '../components/Simulation.jsx';
   </head>
 
   <body>
-    <div class="simulation-layout">
-      <Simulation client:load />
-    </div>
+    <Simulation client:load />
   </body>
 </html>
