@@ -1,17 +1,25 @@
 ---
+import '../index.css';
 
+import Configs from '../components/Configs.jsx';
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FA Cache Simulator</title>
+  </head>
+  <body>
+    <div class="simulation-layout">
+      <aside class="config-sidebar">
+        <Configs client:load />
+      </aside>
+
+      <main class="simulation-area">
+        <!-- Your trace simulation tables/components will go here -->
+      </main>
+    </div>
+  </body>
 </html>

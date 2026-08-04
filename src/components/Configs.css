@@ -1,0 +1,102 @@
+/* Universal box-sizing fix inside configs */
+.config-container,
+.config-container * {
+    box-sizing: border-box;
+}
+
+/* Inner Configuration Box Styles */
+.config-container {
+    width: 100%; /* Fills the 320px sidebar parent */
+    max-width: 320px;
+    background-color: #fff;
+    border: 3px solid #000;
+    padding: 18px;
+    box-shadow: 6px 6px 0px #000;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Header */
+.config-container h2 {
+    font-size: 1rem;
+    font-weight: 900;
+    text-align: center;
+    border-bottom: 3px solid #000;
+    text-transform: uppercase;
+    background: #f7a8b8;
+    margin: -18px -18px 18px -18px;
+    padding: 12px;
+}
+
+/* Form Input Rows */
+.field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    gap: 10px;
+}
+
+/* Shrink inputs/selects so text isn't crammed */
+.field select,
+.field input {
+    box-sizing: border-box;
+    width: 180px;
+    min-width: 180px;
+    padding: 6px 8px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 2px solid #000;
+    border-radius: 0px;
+    background-color: #fff;
+    box-shadow: 2px 2px 0px #000;
+    outline: none;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.field select:focus,
+.field input:focus {
+    background-color: #e0f7fa;
+}
+
+.field input:disabled {
+    background-color: #ddd;
+    color: #000;
+    cursor: not-allowed;
+}
+
+/* Harsh Action Button */
+.run-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    background-color: #5bcefa;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 3px solid #000;
+    border-radius: 0px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #000;
+    transition: all 0.05s ease;
+}
+
+.run-btn:hover {
+    background-color: #17252a;
+    color: #5cdb95;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+.run-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+}
