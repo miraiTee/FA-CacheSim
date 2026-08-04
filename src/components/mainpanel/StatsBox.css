@@ -1,20 +1,17 @@
-.stats-container {
+.stats-box-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-rows: repeat(2, auto);    /* 2 rows */
+  gap: 8px;                               /* Adjust spacing between boxes */
   width: 100%;
   box-sizing: border-box;
 }
 
-.stats-box {
-  border: 2px solid #5D1838;
-  background-color: #FBFAF0;
-  padding: 0.5rem;
-  box-shadow: 4px 4px 0px #5D1838;
-  box-sizing: border-box;
-}
-
-/* 3 flexible columns across 2 automatic rows */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.4rem;
+/* Ensure individual cards fill their grid cells properly */
+.stat-card, .box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
