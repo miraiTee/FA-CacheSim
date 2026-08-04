@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&family=Space+Mono:wght@400;700&display=swap");
 
 .panel-container {
   width: 100%;
@@ -117,10 +117,6 @@
   border-radius: 0px;
 }
 
-.stream-container::-webkit-scrollbar-thumb:hover {
-  background-color: #7a224b;
-}
-
 .empty-snippet {
   font-family: "Space Mono", monospace;
   font-size: 10px;
@@ -160,12 +156,15 @@
   justify-content: center;
 }
 
+.modal--wide {
+  max-width: 820px;
+  width: 92%;
+}
+
 .modal {
   background-color: #fffdf8;
   border: 2px solid #5d1838;
-  width: 90%;
-  max-width: 580px;
-  max-height: 75vh;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   box-shadow: 6px 6px 0px #5d1838;
@@ -197,7 +196,7 @@
 }
 
 .modal-body {
-  padding: 1rem;
+  padding: 0.8rem;
   overflow-y: auto;
   flex: 1;
   scrollbar-width: thin;
@@ -215,11 +214,83 @@
 
 .modal-body::-webkit-scrollbar-thumb {
   background-color: #5d1838;
-  border-radius: 0px;
 }
 
-.modal-body::-webkit-scrollbar-thumb:hover {
-  background-color: #7a224b;
+/* Table Wrapper & Side-by-Side Trace Table */
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.trace-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  text-align: center;
+  border: 1px solid #5d1838;
+}
+
+.trace-table th,
+.trace-table td {
+  padding: 6px 4px;
+  border: 1px solid rgba(93, 24, 56, 0.2);
+}
+
+.trace-table th {
+  background-color: #f3e6e8;
+  color: #5d1838;
+  font-family: "VT323", monospace;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.header-group {
+  border-bottom: 2px solid #5d1838 !important;
+}
+
+.lru-header,
+.lru-col {
+  background-color: rgba(93, 24, 56, 0.03);
+}
+
+.mru-header,
+.mru-col {
+  background-color: rgba(20, 80, 160, 0.03);
+}
+
+.sub-header {
+  font-size: 14px;
+}
+
+.col-step {
+  color: rgba(93, 24, 56, 0.6);
+  font-size: 10px;
+}
+
+.col-blk {
+  font-weight: 700;
+  color: #5d1838;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 1px 4px;
+  font-size: 9px;
+  font-family: "Silkscreen", cursive;
+}
+
+.badge--hit {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+  border: 1px solid #a5d6a7;
+}
+
+.badge--miss {
+  background-color: #ffebee;
+  color: #b71c1c;
+  border: 1px solid #ef9a9a;
 }
 
 .sequence-grid {
@@ -260,4 +331,12 @@
 .modal-download {
   font-family: "Silkscreen", cursive;
   padding: 0.35rem 0.75rem;
+}
+
+.trace-table .col-divider {
+  width: 12px;
+  text-align: center;
+  color: #a08276;
+  font-weight: bold;
+  user-select: none;
 }

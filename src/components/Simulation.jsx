@@ -81,8 +81,24 @@ export default function SimulationApp() {
     associativity: config.associativity || 0,
   });
 
-  // 3. Derive current live state directly from step logs
-  const traceLogs = lruSimResult.logs.slice(0, currentMem + 1);
+  // 3. COMBINED SIDE-BY-SIDE TRACE LOGS (LRU + MRU)
+  const lruSlice = lruSimResult.logs.slice(0, currentMem + 1);
+  const mruSlice = mruSimResult.logs.slice(0, currentMem + 1);
+
+  const traceLogs = lruSlice.map((lruLog, idx) => {
+    const mruLog = mruSlice[idx] || {};
+    return {
+      step: idx, // Explicitly pass 0-based idx (or lruLog.step if defined)
+      blk: lruLog.blk,
+      set: lruLog.set ?? "-",
+      lruWay: lruLog.way ?? "-",
+      lruResult: lruLog.result,
+      lruEvict: lruLog.evict,
+      mruWay: mruLog.way ?? "-",
+      mruResult: mruLog.result,
+      mruEvict: mruLog.evict,
+    };
+  });
 
   // Compute step-synchronized stats for UI cards
   const liveLruStats = getLiveStats(lruSimResult, currentMem);
@@ -96,14 +112,13 @@ export default function SimulationApp() {
     }
   }, [sequenceList.length]);
 
-  // Helper to map snapshot array to slot state
   // Helper to map snapshot array to static physical slots with dynamic recency
   const buildCacheState = (simResult, currentStep, totalCacheBlocks) => {
     const currentLog = simResult.logs[currentStep];
     if (!currentLog) return [];
 
-    const physicalSlots = currentLog.snapshot || []; // Fixed slot values
-    const recencyQueue = currentLog.recencyQueue || []; // Access order [LRU ... MRU]
+    const physicalSlots = currentLog.snapshot || [];
+    const recencyQueue = currentLog.recencyQueue || [];
     const activeBlock = currentLog.blk;
     const resultType = currentLog.result;
 
@@ -112,10 +127,8 @@ export default function SimulationApp() {
       recencyQueue.length > 0 ? recencyQueue[recencyQueue.length - 1] : null;
 
     return Array.from({ length: totalCacheBlocks }, (_, slotIndex) => {
-      // Data stays pinned to physical slot index!
       const blockVal = physicalSlots[slotIndex] ?? null;
 
-      // Find where this block sits in the recency queue
       const recencyIndex = recencyQueue.indexOf(blockVal);
       let recencyPercent = 0;
       if (blockVal !== null && recencyIndex !== -1 && recencyQueue.length > 0) {
@@ -125,7 +138,6 @@ export default function SimulationApp() {
             : Math.round((recencyIndex / (recencyQueue.length - 1)) * 100);
       }
 
-      // Dynamic pointers: attach badges to whichever physical slot holds lruBlock or mruBlock
       let pointerTag = null;
       if (blockVal !== null) {
         if (blockVal === mruBlock) pointerTag = "MRU";
@@ -210,7 +222,6 @@ export default function SimulationApp() {
     return () => clearInterval(interval);
   }, [isPlaying, sequenceList.length]);
 
-  // Playback Control Handlers
   const handleTogglePlay = () => {
     if (!isPlaying && currentMem + 1 >= sequenceList.length) {
       setCurrentMem(0);
@@ -257,7 +268,6 @@ export default function SimulationApp() {
 
       {/* 2. BOTTOM BAR */}
       <aside className="config-bottombar">
-        {/* Column 1: Config */}
         <div className="bottombar-col bottombar-col--left">
           <Configs
             config={config}
@@ -266,12 +276,10 @@ export default function SimulationApp() {
           />
         </div>
 
-        {/* Column 2: Player & Trace Log */}
         <div className="bottombar-col bottombar-col--center">
           <CenterElems playerProps={playerProps} traceLogs={traceLogs} />
         </div>
 
-        {/* Column 3: Stats & Sequence Panel */}
         <div className="bottombar-col bottombar-col--right">
           <RightElems
             lruStats={liveLruStats}
