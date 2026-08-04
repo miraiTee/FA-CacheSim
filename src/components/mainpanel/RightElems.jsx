@@ -8,7 +8,6 @@ export default function RightElems({
   mruStats = null,
   sequenceData = [],
   isRandom = false,
-  onRegenerate,
 }) {
   return (
     <div className="right-elems">
@@ -22,7 +21,6 @@ export default function RightElems({
         <SequencePanel 
           sequence={sequenceData} 
           isRandom={isRandom}
-          onRegenerate={onRegenerate}
         />
       </div>
     </div>

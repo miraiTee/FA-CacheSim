@@ -2,32 +2,32 @@ const cacheAccessTime = 10;
 const memoryAccessTime = 100;
 const missPenalty = memoryAccessTime;
 
-function totalAccessCount(sequence) {
+export function totalAccessCount(sequence) {
     return sequence.length;
 }
 
-function hitRate(hitCount, totalAccess) {
+export function hitRate(hitCount, totalAccess) {
     if (totalAccess === 0) return 0;
     return hitCount / totalAccess;
 }
 
-function missRate(hitRate) {
-    return 1 - hitRate;
+export function missRate(hitRateVal) {
+    return 1 - hitRateVal;
 }
 
-function missCount(totalAccess, hitCount) {
+export function missCount(totalAccess, hitCount) {
     return totalAccess - hitCount;
 }
 
-function TMAT(totalAccess, AMAT) {
-    return totalAccess * AMAT;
+export function TMAT(totalAccess, amatVal) {
+    return totalAccess * amatVal;
 }
 
-function AMAT(cacheAccessTime, missRate, missPenalty) {
-    return cacheAccessTime + (missRate * missPenalty);
+export function AMAT(cacheAccess, missRateVal, penalty) {
+    return cacheAccess + (missRateVal * penalty);
 }
 
-function hitCountMRU(sequence, cacheBlocks, mappingType, associativity = 0) {
+export function hitCountMRU(sequence, cacheBlocks, mappingType, associativity = 0) {
     let cache = [];
     let hitCount = 0;
     
@@ -36,7 +36,7 @@ function hitCountMRU(sequence, cacheBlocks, mappingType, associativity = 0) {
     
     if (mappingType === "set-associative") {
         numSets = Math.floor(cacheBlocks / associativity);
-        sets = Array.from({length: numSets}, () => []);
+        sets = Array.from({ length: numSets }, () => []);
     }
     
     for (let block of sequence) {
@@ -44,7 +44,6 @@ function hitCountMRU(sequence, cacheBlocks, mappingType, associativity = 0) {
         let blockIndex;
         
         if (mappingType === "direct") {
-            const index = block % cacheBlocks;
             cacheToUse = cache;
             blockIndex = cache.findIndex(b => b === block);
         } else if (mappingType === "full") {
@@ -87,7 +86,7 @@ function hitCountMRU(sequence, cacheBlocks, mappingType, associativity = 0) {
     return hitCount;
 }
 
-function hitCountLRU(sequence, cacheBlocks, mappingType, associativity = 0) {
+export function hitCountLRU(sequence, cacheBlocks, mappingType, associativity = 0) {
     let cache = [];
     let hitCount = 0;
     
@@ -96,7 +95,7 @@ function hitCountLRU(sequence, cacheBlocks, mappingType, associativity = 0) {
     
     if (mappingType === "set-associative") {
         numSets = Math.floor(cacheBlocks / associativity);
-        sets = Array.from({length: numSets}, () => []);
+        sets = Array.from({ length: numSets }, () => []);
     }
     
     for (let block of sequence) {
@@ -146,30 +145,23 @@ function hitCountLRU(sequence, cacheBlocks, mappingType, associativity = 0) {
     return hitCount;
 }
 
-function runCacheSimulation(params) {
+export function runCacheSimulation(params) {
     const {
         sequence,
         cacheBlocks,
         mappingType,
         replacementPolicy,
-        cacheAccessTime,
-        memoryAccessTime,
+        cacheAccessTime: cAccTime = cacheAccessTime,
+        memoryAccessTime: mAccTime = memoryAccessTime,
         readPolicy,
         associativity = 0
     } = params;
     
-    let missPenalty;
-    if (readPolicy === "non-load thru") {
-        missPenalty = memoryAccessTime;
-    } else if (readPolicy === "load thru") {
-        missPenalty = memoryAccessTime; 
-    } else {
-        missPenalty = memoryAccessTime;
-    }
+    let calculatedMissPenalty = mAccTime;
     
     const totalAccess = totalAccessCount(sequence);
     
-    let hitCnt;
+    let hitCnt = 0;
     if (replacementPolicy === "MRU") {
         hitCnt = hitCountMRU(sequence, cacheBlocks, mappingType, associativity);
     } else if (replacementPolicy === "LRU") {
@@ -179,8 +171,8 @@ function runCacheSimulation(params) {
     const missCnt = missCount(totalAccess, hitCnt);
     const hRate = hitRate(hitCnt, totalAccess);
     const mRate = missRate(hRate);
-    const amat = AMAT(cacheAccessTime, mRate, missPenalty);
-    const tmat = TMAT(totalAccess, amat);
+    const amatVal = AMAT(cAccTime, mRate, calculatedMissPenalty);
+    const tmatVal = TMAT(totalAccess, amatVal);
     
     return {
         totalAccess,
@@ -188,10 +180,10 @@ function runCacheSimulation(params) {
         missCount: missCnt,
         hitRate: hRate,
         missRate: mRate,
-        AMAT: amat,
-        TMAT: tmat,
-        cacheAccessTime,
-        missPenalty,
+        AMAT: amatVal,
+        TMAT: tmatVal,
+        cacheAccessTime: cAccTime,
+        missPenalty: calculatedMissPenalty,
         mappingType,
         replacementPolicy,
         readPolicy,
@@ -200,7 +192,7 @@ function runCacheSimulation(params) {
     };
 }
 
-function formatWay(mappingType, setIndex, position) {
+export function formatWay(mappingType, setIndex, position) {
     if (mappingType === 'set-associative') {
         return `S${setIndex}W${position}`;
     }
@@ -210,14 +202,14 @@ function formatWay(mappingType, setIndex, position) {
     return position === null || position === undefined ? 'N/A' : `W${position}`;
 }
 
-function simulateCacheWithLogs(params) {
+export function simulateCacheWithLogs(params) {
     const {
         sequence,
         cacheBlocks,
         mappingType,
         replacementPolicy,
-        cacheAccessTime = 10,
-        memoryAccessTime = 100,
+        cacheAccessTime: cAccTime = 10,
+        memoryAccessTime: mAccTime = 100,
         readPolicy,
         associativity = 0
     } = params;
@@ -250,7 +242,7 @@ function simulateCacheWithLogs(params) {
             cacheToUse = cache[setIndex];
             blockIndex = cacheToUse.indexOf(block);
         } else {
-            // Full Associative
+            // Fully Associative
             cacheToUse = cache;
             blockIndex = cacheToUse.indexOf(block);
         }
@@ -287,9 +279,9 @@ function simulateCacheWithLogs(params) {
                 } else {
                     // Eviction required
                     if (replacementPolicy === 'MRU') {
-                        evicted = cacheToUse.pop(); // Remove most recently used (end of array)
+                        evicted = cacheToUse.pop(); // Remove MRU (end of array)
                     } else {
-                        evicted = cacheToUse.shift(); // Remove least recently used (start of array)
+                        evicted = cacheToUse.shift(); // Remove LRU (start of array)
                     }
                     cacheToUse.push(block);
                     way = formatWay(mappingType, setIndex, cacheToUse.length - 1);
@@ -297,13 +289,19 @@ function simulateCacheWithLogs(params) {
             }
         }
 
+        // Clone state for step logs
+        const currentSnapshot = mappingType === 'full' 
+            ? [...cache] 
+            : cache.map(set => [...set]);
+
         logs.push({
             step: step + 1,
             blk: block,
             policy: replacementPolicy,
             way,
             result,
-            evict: evicted !== null ? evicted : 'N/A'
+            evict: evicted !== null ? evicted : 'N/A',
+            snapshot: currentSnapshot
         });
     }
 
@@ -311,9 +309,9 @@ function simulateCacheWithLogs(params) {
     const missCnt = missCount(totalAccess, hitCount);
     const hRate = hitRate(hitCount, totalAccess);
     const mRate = missRate(hRate);
-    const missPenalty = memoryAccessTime;
-    const amat = AMAT(cacheAccessTime, mRate, missPenalty);
-    const tmat = TMAT(totalAccess, amat);
+    const calculatedMissPenalty = mAccTime;
+    const amatVal = AMAT(cAccTime, mRate, calculatedMissPenalty);
+    const tmatVal = TMAT(totalAccess, amatVal);
 
     return {
         totalAccess,
@@ -321,10 +319,10 @@ function simulateCacheWithLogs(params) {
         missCount: missCnt,
         hitRate: hRate,
         missRate: mRate,
-        AMAT: amat,
-        TMAT: tmat,
-        cacheAccessTime,
-        missPenalty,
+        AMAT: amatVal,
+        TMAT: tmatVal,
+        cacheAccessTime: cAccTime,
+        missPenalty: calculatedMissPenalty,
         mappingType,
         replacementPolicy,
         readPolicy,

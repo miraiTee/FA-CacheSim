@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './index.css';
 
 import Configs from './Configs.jsx';
@@ -6,79 +6,87 @@ import CenterElems from './mainpanel/CenterElems.jsx';
 import RightElems from './mainpanel/RightElems.jsx';
 import CacheContainer from './simulation/CacheContainer.jsx';
 
-import { 
-  runCacheSimulation,
-  createCacheSimulator,
-  simulateStep 
-} from '../sim/algos.js';
+import { simulateCacheWithLogs } from '../sim/algos.js';
 import { DEFAULT_CONFIG, SEQUENCE, generateTestCaseSequence } from '../data/configs.js';
-
-const DEFAULT_STATS = {
-  totalAccess: 0,
-  hitCount: 0, 
-  missCount: 0,
-  AMAT: 0,
-  TMAT: 0,
-  hitRate: 0,
-  missRate: 0,
-};
 
 export default function SimulationApp() {
   const [config, setConfig] = useState(DEFAULT_CONFIG);
 
-  // Initial sequence generated directly from DEFAULT_CONFIG
+  // 1. Memory Sequence
   const [sequenceList, setSequenceList] = useState(() =>
     generateTestCaseSequence(DEFAULT_CONFIG.sequence, DEFAULT_CONFIG.numCacheBlocks)
   );
-
   const [currentMem, setCurrentMem] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [traceLogs, setTraceLogs] = useState([]);
 
-  // Simulators & Live Cache Display States
-  const [lruSimulator, setLruSimulator] = useState(() =>
-    createCacheSimulator({
-      sequence: generateTestCaseSequence(DEFAULT_CONFIG.sequence, DEFAULT_CONFIG.numCacheBlocks),
-      cacheBlocks: DEFAULT_CONFIG.numCacheBlocks,
-      mappingType: "full",
-      replacementPolicy: "LRU"
-    })
-  );
-
-  const [mruSimulator, setMruSimulator] = useState(() =>
-    createCacheSimulator({
-      sequence: generateTestCaseSequence(DEFAULT_CONFIG.sequence, DEFAULT_CONFIG.numCacheBlocks),
-      cacheBlocks: DEFAULT_CONFIG.numCacheBlocks,
-      mappingType: "full",
-      replacementPolicy: "MRU"
-    })
-  );
-
-  const [lruCacheState, setLruCacheState] = useState([]);
-  const [mruCacheState, setMruCacheState] = useState([]);
-
-  // Direct calculation of LRU and MRU stats on render
-  const lruStats = runCacheSimulation({
+  // 2. Compute full simulations (stats + full step logs) directly on render
+  const lruSimResult = simulateCacheWithLogs({
     sequence: sequenceList,
     cacheBlocks: config.numCacheBlocks,
-    mappingType: "full",
+    mappingType: config.mappingType || "full",
     replacementPolicy: "LRU",
-    cacheAccessTime: 10,
-    memoryAccessTime: 100,
-    readPolicy: config.readPolicy
-  }) || DEFAULT_STATS;
+    cacheAccessTime: config.cacheAccessTime || 10,
+    memoryAccessTime: config.memoryAccessTime || 100,
+    readPolicy: config.readPolicy,
+    associativity: config.associativity || 0
+  });
 
-  const mruStats = runCacheSimulation({
+  const mruSimResult = simulateCacheWithLogs({
     sequence: sequenceList,
     cacheBlocks: config.numCacheBlocks,
-    mappingType: "full",
+    mappingType: config.mappingType || "full",
     replacementPolicy: "MRU",
-    cacheAccessTime: 10,
-    memoryAccessTime: 100,
-    readPolicy: config.readPolicy
-  }) || DEFAULT_STATS;
+    cacheAccessTime: config.cacheAccessTime || 10,
+    memoryAccessTime: config.memoryAccessTime || 100,
+    readPolicy: config.readPolicy,
+    associativity: config.associativity || 0
+  });
 
-  // 1. Reset steps, playback, logs, and cache when config/sequence changes
+  // 3. Derive current live state directly from step logs
+  const traceLogs = lruSimResult.logs.slice(0, currentMem + 1);
+
+  // Instant mode / Jump to end handler
+  const handleJumpToEnd = useCallback(() => {
+    setIsPlaying(false);
+    if (sequenceList.length > 0) {
+      setCurrentMem(sequenceList.length - 1);
+    }
+  }, [sequenceList.length]);
+
+  // Helper to map snapshot array to slot state
+  const buildCacheState = (simResult, currentStep) => {
+    const currentLog = simResult.logs[currentStep];
+    const snapshot = currentLog?.snapshot || [];
+    const activeBlock = currentLog?.blk;
+    const resultType = currentLog?.result; // 'HIT' or 'MISS'
+
+    return snapshot.map((blockVal, idx) => {
+      const isCurrent = blockVal === activeBlock;
+
+      // In the snapshot array, index 0 is LRU and index (len - 1) is MRU
+      const recencyPercent = snapshot.length > 1
+        ? Math.round((idx / (snapshot.length - 1)) * 100)
+        : 100;
+
+      let status = 'idle';
+      if (isCurrent) {
+        status = resultType === 'HIT' ? 'hit' : 'miss';
+      }
+
+      return {
+        data: blockVal,
+        recencyPercent,
+        status,
+        pointerTag: idx === 0 ? 'LRU' : idx === snapshot.length - 1 ? 'MRU' : null,
+      };
+    });
+  };
+
+  // 4. Declare cache states for both policies
+  const lruCacheState = buildCacheState(lruSimResult, currentMem);
+  const mruCacheState = buildCacheState(mruSimResult, currentMem);
+
+  // 5. Config change handler
   const handleConfigChange = (newConfig, isSequenceSelection = false) => {
     const isCacheSizeChanged = newConfig.numCacheBlocks !== config.numCacheBlocks;
 
@@ -93,33 +101,17 @@ export default function SimulationApp() {
 
     setConfig(newConfig);
 
-    // Reset stepping states
-    setCurrentMem(0);
-    setIsPlaying(false);
-    setTraceLogs([]);
-
-    // Initialize fresh simulators
-    const newLruSim = createCacheSimulator({
-      sequence: updatedSequence,
-      cacheBlocks: newConfig.numCacheBlocks,
-      mappingType: "full",
-      replacementPolicy: "LRU"
-    });
-
-    const newMruSim = createCacheSimulator({
-      sequence: updatedSequence,
-      cacheBlocks: newConfig.numCacheBlocks,
-      mappingType: "full",
-      replacementPolicy: "MRU"
-    });
-
-    setLruSimulator(newLruSim);
-    setMruSimulator(newMruSim);
-    setLruCacheState([]);
-    setMruCacheState([]);
+    // Reset or complete step position depending on mode
+    if (newConfig.simulationMode === 'instant') {
+      setIsPlaying(false);
+      setCurrentMem(Math.max(0, updatedSequence.length - 1));
+    } else {
+      setCurrentMem(0);
+      setIsPlaying(false);
+    }
   };
 
-  // 2. Step progression timer effect when playing
+  // 6. Playback Timer Effect
   useEffect(() => {
     let interval = null;
 
@@ -140,33 +132,10 @@ export default function SimulationApp() {
     return () => clearInterval(interval);
   }, [isPlaying, sequenceList.length]);
 
-  // 3. Step forward simulators whenever currentMem advances
-  useEffect(() => {
-    if (!lruSimulator || !mruSimulator || sequenceList.length === 0) return;
-
-    let nextLruSim = { ...lruSimulator };
-    let nextMruSim = { ...mruSimulator };
-
-    if (nextLruSim.currentStep <= currentMem && !nextLruSim.finished) {
-      nextLruSim = simulateStep(nextLruSim);
-      nextMruSim = simulateStep(nextMruSim);
-
-      setLruSimulator(nextLruSim);
-      setMruSimulator(nextMruSim);
-
-      setLruCacheState([...nextLruSim.cache]);
-      setMruCacheState([...nextMruSim.cache]);
-
-      if (nextLruSim.logs.length > 0) {
-        setTraceLogs([...nextLruSim.logs]);
-      }
-    }
-  }, [currentMem]);
-
   // Playback Control Handlers
   const handleTogglePlay = () => {
     if (!isPlaying && currentMem + 1 >= sequenceList.length) {
-      handleConfigChange(config);
+      setCurrentMem(0);
     }
     setIsPlaying((prev) => !prev);
   };
@@ -183,6 +152,7 @@ export default function SimulationApp() {
     isPlaying,
     onTogglePlay: handleTogglePlay,
     onPause: handlePause,
+    onJumpToEnd: handleJumpToEnd,
     totalMemoryWords,
   };
 
@@ -212,7 +182,8 @@ export default function SimulationApp() {
         <div className="bottombar-col bottombar-col--left">
           <Configs 
             config={config} 
-            onRunSimulation={handleConfigChange} 
+            onRunSimulation={handleConfigChange}
+            onJumpToEnd={handleJumpToEnd}
           />
         </div>
 
@@ -227,8 +198,8 @@ export default function SimulationApp() {
         {/* Column 3: Stats & Sequence Panel */}
         <div className="bottombar-col bottombar-col--right">
           <RightElems 
-            lruStats={lruStats}
-            mruStats={mruStats}
+            lruStats={lruSimResult}
+            mruStats={mruSimResult}
             sequenceData={sequenceList}
             isRandom={config.sequence === SEQUENCE.C}
           />
