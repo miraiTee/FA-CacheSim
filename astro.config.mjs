@@ -1,8 +1,9 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 
-// https://astro.build/config
 export default defineConfig({
-    integrations: [react()],
+  // Add your GitHub Pages URL and Repository subpath:
+  site: 'https://miraitee.github.io',
+  base: '/FA-CacheSim', // Must match your repository name exactly (case-sensitive!)
+  integrations: [react()],
 });
