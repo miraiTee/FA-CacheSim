@@ -6,79 +6,126 @@ import CenterElems from './mainpanel/CenterElems.jsx';
 import RightElems from './mainpanel/RightElems.jsx';
 import CacheContainer from './simulation/CacheContainer.jsx';
 
+import { 
+  runCacheSimulation,
+  createCacheSimulator,
+  simulateStep 
+} from '../sim/algos.js';
 import { DEFAULT_CONFIG, SEQUENCE, generateTestCaseSequence } from '../data/configs.js';
 
 const DEFAULT_STATS = {
-  totalMemoryAccessTime: 0,
-  cacheHitCount: 0,
-  cacheMissCount: 0,
-  avgMemoryAccessTime: 0,
+  totalAccess: 0,
+  hitCount: 0, 
+  missCount: 0,
+  AMAT: 0,
+  TMAT: 0,
   hitRate: 0,
   missRate: 0,
 };
 
 export default function SimulationApp() {
   const [config, setConfig] = useState(DEFAULT_CONFIG);
-  const [lruCacheState, setLruCacheState] = useState([]);
-  const [mruCacheState, setMruCacheState] = useState([]);
-  const [lruStats, setLruStats] = useState(null);
-  const [mruStats, setMruStats] = useState(null);
 
-  // Initialized to 0 by default
-  const [currentMem, setCurrentMem] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [traceLogs, setTraceLogs] = useState([]);
-
-  // Initial sequence state generated directly from DEFAULT_CONFIG
+  // Initial sequence generated directly from DEFAULT_CONFIG
   const [sequenceList, setSequenceList] = useState(() =>
     generateTestCaseSequence(DEFAULT_CONFIG.sequence, DEFAULT_CONFIG.numCacheBlocks)
   );
 
-  // 1. Reset steps, playback, stats, and cache when config/sequence changes
+  const [currentMem, setCurrentMem] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [traceLogs, setTraceLogs] = useState([]);
+
+  // Simulators & Live Cache Display States
+  const [lruSimulator, setLruSimulator] = useState(() =>
+    createCacheSimulator({
+      sequence: generateTestCaseSequence(DEFAULT_CONFIG.sequence, DEFAULT_CONFIG.numCacheBlocks),
+      cacheBlocks: DEFAULT_CONFIG.numCacheBlocks,
+      mappingType: "full",
+      replacementPolicy: "LRU"
+    })
+  );
+
+  const [mruSimulator, setMruSimulator] = useState(() =>
+    createCacheSimulator({
+      sequence: generateTestCaseSequence(DEFAULT_CONFIG.sequence, DEFAULT_CONFIG.numCacheBlocks),
+      cacheBlocks: DEFAULT_CONFIG.numCacheBlocks,
+      mappingType: "full",
+      replacementPolicy: "MRU"
+    })
+  );
+
+  const [lruCacheState, setLruCacheState] = useState([]);
+  const [mruCacheState, setMruCacheState] = useState([]);
+
+  // Direct calculation of LRU and MRU stats on render
+  const lruStats = runCacheSimulation({
+    sequence: sequenceList,
+    cacheBlocks: config.numCacheBlocks,
+    mappingType: "full",
+    replacementPolicy: "LRU",
+    cacheAccessTime: 10,
+    memoryAccessTime: 100,
+    readPolicy: config.readPolicy
+  }) || DEFAULT_STATS;
+
+  const mruStats = runCacheSimulation({
+    sequence: sequenceList,
+    cacheBlocks: config.numCacheBlocks,
+    mappingType: "full",
+    replacementPolicy: "MRU",
+    cacheAccessTime: 10,
+    memoryAccessTime: 100,
+    readPolicy: config.readPolicy
+  }) || DEFAULT_STATS;
+
+  // 1. Reset steps, playback, logs, and cache when config/sequence changes
   const handleConfigChange = (newConfig, isSequenceSelection = false) => {
     const isCacheSizeChanged = newConfig.numCacheBlocks !== config.numCacheBlocks;
 
-    setConfig(newConfig);
-
-    // Reset currentMem to 0 along with stats, logs, and playback state
-    setCurrentMem(0);
-    setIsPlaying(false);
-    setLruStats(DEFAULT_STATS);
-    setMruStats(DEFAULT_STATS);
-    setLruCacheState([]);
-    setMruCacheState([]);
-    setTraceLogs([]);
-
-    if (isSequenceSelection || isCacheSizeChanged) {
-      const updatedSequence = generateTestCaseSequence(
+    let updatedSequence = sequenceList;
+    if (isSequenceSelection || isCacheSizeChanged || newConfig.sequence !== config.sequence) {
+      updatedSequence = generateTestCaseSequence(
         newConfig.sequence,
         newConfig.numCacheBlocks
       );
       setSequenceList(updatedSequence);
     }
-  };
 
-  // 2. Playback Control Handlers
-  const handleTogglePlay = () => {
-    // If playback reached the end, restart from 0 on play
-    if (!isPlaying && currentMem + 1 >= sequenceList.length) {
-      setCurrentMem(0);
-    }
-    setIsPlaying((prev) => !prev);
-  };
+    setConfig(newConfig);
 
-  const handlePause = () => {
+    // Reset stepping states
+    setCurrentMem(0);
     setIsPlaying(false);
+    setTraceLogs([]);
+
+    // Initialize fresh simulators
+    const newLruSim = createCacheSimulator({
+      sequence: updatedSequence,
+      cacheBlocks: newConfig.numCacheBlocks,
+      mappingType: "full",
+      replacementPolicy: "LRU"
+    });
+
+    const newMruSim = createCacheSimulator({
+      sequence: updatedSequence,
+      cacheBlocks: newConfig.numCacheBlocks,
+      mappingType: "full",
+      replacementPolicy: "MRU"
+    });
+
+    setLruSimulator(newLruSim);
+    setMruSimulator(newMruSim);
+    setLruCacheState([]);
+    setMruCacheState([]);
   };
 
-  // 3. Step progression timer effect when playing
+  // 2. Step progression timer effect when playing
   useEffect(() => {
     let interval = null;
 
     if (isPlaying) {
       interval = setInterval(() => {
         setCurrentMem((prev) => {
-          // Pause automatically when sequence ends
           if (prev + 1 >= sequenceList.length) {
             setIsPlaying(false);
             return prev;
@@ -92,6 +139,41 @@ export default function SimulationApp() {
 
     return () => clearInterval(interval);
   }, [isPlaying, sequenceList.length]);
+
+  // 3. Step forward simulators whenever currentMem advances
+  useEffect(() => {
+    if (!lruSimulator || !mruSimulator || sequenceList.length === 0) return;
+
+    let nextLruSim = { ...lruSimulator };
+    let nextMruSim = { ...mruSimulator };
+
+    if (nextLruSim.currentStep <= currentMem && !nextLruSim.finished) {
+      nextLruSim = simulateStep(nextLruSim);
+      nextMruSim = simulateStep(nextMruSim);
+
+      setLruSimulator(nextLruSim);
+      setMruSimulator(nextMruSim);
+
+      setLruCacheState([...nextLruSim.cache]);
+      setMruCacheState([...nextMruSim.cache]);
+
+      if (nextLruSim.logs.length > 0) {
+        setTraceLogs([...nextLruSim.logs]);
+      }
+    }
+  }, [currentMem]);
+
+  // Playback Control Handlers
+  const handleTogglePlay = () => {
+    if (!isPlaying && currentMem + 1 >= sequenceList.length) {
+      handleConfigChange(config);
+    }
+    setIsPlaying((prev) => !prev);
+  };
+
+  const handlePause = () => {
+    setIsPlaying(false);
+  };
 
   const totalMemoryWords = (config.blockSize || 0) * (config.mainMemoryBlocks || 0);
 
