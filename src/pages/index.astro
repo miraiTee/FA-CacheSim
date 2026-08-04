@@ -6,6 +6,8 @@ import Configs from '../components/Configs.jsx';
 import CenterElems from '../components/mainpanel/CenterElems.jsx';
 import RightElems from '../components/mainpanel/RightElems.jsx';
 import CacheContainer from '../components/simulation/CacheContainer.jsx';
+
+import Simulation from '../components/Simulation.jsx';
 ---
 
 <html lang="en">
@@ -18,20 +20,7 @@ import CacheContainer from '../components/simulation/CacheContainer.jsx';
 
   <body>
     <div class="simulation-layout">
-      <!-- 1. Main Simulation Area (LRU / MRU Cache Containers) -->
-      <main class="simulation-area">
-        <div class="cache-containers-wrapper">
-          <CacheContainer policy="LRU" client:load />
-          <CacheContainer policy="MRU" client:load />
-        </div>
-      </main>
-
-      <!-- 2. Bottombar (Configs | CenterElems | RightElems) -->
-      <aside class="config-bottombar">
-        <Configs client:load />
-        <CenterElems client:load />
-        <RightElems client:load />
-      </aside>
+      <Simulation client:load />
     </div>
   </body>
 </html>

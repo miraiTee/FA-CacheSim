@@ -1,11 +1,11 @@
 /* Universal box-sizing fix inside configs */
-.config-container,
-.config-container * {
+.container,
+.container * {
     box-sizing: border-box;
 }
 
 /* Inner Configuration Box Styles */
-.config-container {
+.container {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -22,7 +22,7 @@
 }
 
 /* Header - Pastel Pink */
-.config-container h2 {
+.container h2 {
     font-family: 'Love Ya Like A Sister', serif;
     font-size: 1.25rem;
     font-weight: normal;

@@ -54,95 +54,203 @@
 /* ==========================================================================
    2. CacheList
    ========================================================================== */
-.cache-list {
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+/* Main Cache Box Layout */
+.cache-container {
+  border: 2px solid #5D1838;
+  background-color: #FBFAF0;
+  box-shadow: 4px 4px 0px #5D1838;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  height: 100%;
   width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
-/* ==========================================================================
-   3. CacheBlock
-   ========================================================================== */
-.cache-block {
-  display: grid;
-  grid-template-columns: 80px 1fr 120px 80px;
+.cache-container__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.6rem 0.8rem 0.4rem;
+  border-bottom: 1.5px dashed #5D1838;
+  flex-shrink: 0;
+}
+
+.cache-container__title {
+  font-family: 'VT323', monospace;
+  font-size: 26px;
+  line-height: 1;
+  color: #5D1838;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.cache-container__subtitle {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: rgba(93, 24, 56, 0.7);
+}
+
+/* Scrollable Table Wrapper */
+.cache-table-container {
+  flex: 1 1 0%;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.5rem;
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+  scrollbar-color: #5D1838 #FBFAF0;
+}
+
+/* Table Alignment */
+.cache-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Share Tech Mono', monospace;
+  text-align: left;
+}
+
+.cache-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #FBFAF0;
+  z-index: 2;
+}
+
+.cache-table th {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #5D1838;
+  padding: 0.4rem;
+  border-bottom: 1.5px solid #5D1838;
+  letter-spacing: 0.5px;
+}
+
+.cache-table td {
+  padding: 0.35rem 0.4rem;
+  border-bottom: 1px dotted rgba(93, 24, 56, 0.2);
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+/* Webkit Scrollbar Styling (Chrome/Safari/Edge/Zen Browser) */
+.cache-table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cache-table-container::-webkit-scrollbar-track {
+  background: #FBFAF0;
+  border-left: 1px solid #5D1838;
+}
+
+.cache-table-container::-webkit-scrollbar-thumb {
+  background: #5D1838;
+  border-radius: 0px;
+}
+
+.cache-table-container::-webkit-scrollbar-thumb:hover {
+  background: #3d1024;
+}
+
+/* Column Widths */
+.col-slot {
+  width: 60px;
+  font-weight: bold;
+  color: #5D1838;
+}
+
+.col-data {
+  width: 140px;
+}
+
+.empty-tag {
+  color: rgba(93, 24, 56, 0.4);
+  font-style: italic;
+  font-size: 11px;
+}
+
+.data-tag {
+  font-weight: bold;
+  color: #5D1838;
+  background-color: #FFFDF8;
+  border: 1px solid #5D1838;
+  padding: 1px 6px;
+  border-radius: 1px;
+}
+
+/* Recency Bar Alignment */
+.col-recency {
+  width: 160px;
+}
+
+.recency-cell {
+  display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  background-color: #fffaf0;
-  border: 2px solid var(--cache-border);
-  transition: all 0.25s ease-in-out;
-  position: relative;
+  gap: 8px;
 }
 
-.cache-block__slot {
-  font-family: monospace;
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: #735c5c;
+.recency-val {
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  color: #5D1838;
+  width: 32px;
+  text-align: right;
 }
 
-.cache-block__data {
-  font-family: monospace;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-  color: var(--cache-border);
-}
-
-/* Recency Bar Styling */
-.cache-block__recency {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-family: monospace;
-  font-size: 0.65rem;
-  color: #735c5c;
-}
-
-.cache-block__bar-track {
-  width: 100%;
-  height: 8px;
-  background-color: #e0d5c1;
-  border: 1px solid var(--cache-border);
+.recency-bar-track {
+  flex: 1;
+  height: 6px;
+  background-color: #FFFDF8;
+  border: 1px solid #5D1838;
+  border-radius: 1px;
   overflow: hidden;
 }
 
-.cache-block__bar-fill {
+.recency-bar-fill {
   height: 100%;
-  background-color: var(--cache-accent-lru);
-  transition: width 0.3s ease;
+  background-color: #5D1838;
+  transition: width 0.2s ease-in-out;
 }
 
-.cache-block__pointers {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: 24px;
+/* Pointer Badge */
+.col-pointer {
+  width: 70px;
+  text-align: center;
 }
 
-/* --- Status Glow Animations --- */
-.cache-block--hit {
-  border-color: var(--cache-hit);
-  background-color: #e8f5e9;
-  box-shadow: 0 0 10px rgba(46, 125, 50, 0.5);
+.pointer-badge {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  background-color: #5D1838;
+  color: #FFFDF8;
+  padding: 1px 6px;
+  border-radius: 1px;
 }
 
-.cache-block--miss {
-  border-color: var(--cache-miss);
-  background-color: #fbe9e7;
-  box-shadow: 0 0 10px rgba(216, 67, 21, 0.5);
+.pointer-none {
+  color: rgba(93, 24, 56, 0.25);
 }
 
-.cache-block--evicted {
-  border-color: var(--cache-evicted);
-  background-color: #ffebee;
-  box-shadow: 0 0 10px rgba(198, 40, 40, 0.5);
+/* Animated Event Flash States */
+.cache-row.status-hit {
+  background-color: rgba(46, 125, 50, 0.15);
+}
+
+.cache-row.status-miss {
+  background-color: rgba(230, 81, 0, 0.15);
+}
+
+.cache-row.status-evicted {
+  background-color: rgba(198, 40, 40, 0.15);
 }
 
 /* ==========================================================================
-   4. CachePointer
+   3. CachePointer
    ========================================================================== */
 .cache-pointer {
   font-family: monospace;

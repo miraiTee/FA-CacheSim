@@ -3,15 +3,15 @@ import './SequencePanel.css';
 
 export default function SequencePanel({ sequence = [] }) {
   return (
-    <div className="sequence-panel-container">
-      <div className="sequence-panel">
-        {/* Top Pinned Bookmark Ribbon */}
-        <div className="sequence-bookmark-bar">
-          <div className="sequence-bookmark-tab">SEQUENCE</div>
+    <div className="panel-container">
+      <div className="panel">
+        {/* Title */}
+        <div className="bookmark-bar">
+          <div className="bookmark-tab">SEQUENCE</div>
         </div>
 
-        {/* Content Stream Area */}
-        <div className="sequence-stream-container">
+        {/* Dynamic Stream Container */}
+        <div className="stream-container">
           {sequence.length === 0 ? (
             <span className="empty-sequence-text">No sequence detected.</span>
           ) : (

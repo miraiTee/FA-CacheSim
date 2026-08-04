@@ -3,6 +3,7 @@ import StatsBox from '../mainpanel/StatsBox';
 import SequencePanel from '../mainpanel/SequencePanel';
 import './RightElems.css';
 
+/** Wrapper for rightmost items (player/trace log) */
 export default function RightElems({
   lruStats,
   mruStats,
@@ -10,10 +11,10 @@ export default function RightElems({
 }) {
   return (
     <div className="right-elems">
-      <div className="right-elems__section">
+      <div className="stats-section">
         <StatsBox lruStats={lruStats} mruStats={mruStats} />
       </div>
-      <div className="right-elems__section right-elems__section--sequence">
+      <div className="sequence-section">
         <SequencePanel data={sequenceData} />
       </div>
     </div>

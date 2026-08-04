@@ -23,8 +23,8 @@ html, body {
 /** 1. TOP SECTION (Cache Display) - Takes ~58% of vertical space */
 .simulation-area {
   width: 100%;
-  flex: 58 1 0%; /* Flex-grow ratio for top half */
-  min-height: 0;   /* CRITICAL: Allows flex children to shrink/scroll properly */
+  flex: 58 1 0%;
+  min-height: 0; 
   display: flex;
   flex-direction: column;
 }
@@ -41,37 +41,56 @@ html, body {
 .config-bottombar {
   display: flex;
   flex-direction: row;
-  align-items: stretch; /* Stretches boxes to match equal height across bottom */
+  align-items: stretch;
   gap: 1.5rem;
   width: 100%;
-  flex: 42 1 0%; /* Flex-grow ratio for bottom half */
+  flex: 42 1 0%;
   min-height: 0;
   box-sizing: border-box;
 }
 
-/* Ensure Astro island wrappers pass full height down */
-.config-bottombar > astro-island {
+/** 2. BOTTOM BAR (Controls & Stats) - Takes ~42% of vertical space */
+.config-bottombar {
   display: flex;
-  height: 100%;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1.5rem;
+  width: 100%;
+  flex: 42 1 0%;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
-/* Left: Configs */
+/* Ensure child wrappers pass full height down */
+.config-bottombar > astro-island,
+.config-bottombar > .bottombar-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Left: Configs (Fixed 320px) */
 .config-bottombar > astro-island:nth-child(1),
-.config-bottombar > .config-container {
+.config-bottombar > .config-container,
+.config-bottombar > .bottombar-col--left {
   width: 320px;
   min-width: 320px;
   flex-shrink: 0;
 }
 
-/* Middle: MainPanel (Expands horizontally) */
+/* Middle: CenterElems (~600px target width) */
 .config-bottombar > astro-island:nth-child(2),
-.config-bottombar > .main-panel {
-  flex: 1;
+.config-bottombar > .main-panel,
+.config-bottombar > .bottombar-col--center {
+  flex: 1 1 600px;
   min-width: 0;
 }
 
-/* Right: StatsBox */
+/* Right: RightElems (~600px target width) */
 .config-bottombar > astro-island:nth-child(3),
-.config-bottombar > .stats-container {
-  flex-shrink: 0;
+.config-bottombar > .stats-container,
+.config-bottombar > .bottombar-col--right {
+  flex: 1 1 600px;
+  min-width: 0;
 }

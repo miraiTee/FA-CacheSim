@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './TraceLog.css';
 
-export default function TraceLog({ sequence = [] }) {
+export default function TracePanel({ sequence = [] }) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Download sequence trace as a .txt file
@@ -26,23 +26,23 @@ export default function TraceLog({ sequence = [] }) {
   };
 
   return (
-    <div className="trace-panel-container">
-      <div className="trace-log-card">
+    <div className="panel-container">
+      <div className="card">
         {/* Hanging Bookmark Tabs Bar */}
-        <div className="trace-bookmark-bar">
-          <div className="trace-bookmark-tab main-label">TRACE LOG</div>
+        <div className="bookmark-bar">
+          <div className="bookmark-label">TRACE LOG</div>
           
-          {/* Action Tabs replacement */}
-          <div className="trace-bookmark-actions">
+          {/* Action Tabs */}
+          <div className="bookmark-actions">
             <button
-              className="trace-tab-btn"
+              className="tab-btn"
               onClick={() => setIsOpen(true)}
               disabled={sequence.length === 0}
             >
               EXPAND
             </button>
             <button
-              className="trace-tab-btn"
+              className="tab-btn"
               onClick={handleDownload}
               disabled={sequence.length === 0}
             >
@@ -52,16 +52,16 @@ export default function TraceLog({ sequence = [] }) {
         </div>
 
         {/* Clean Sequence Stream Body */}
-        <div className="trace-log-body">
-          <div className="trace-stream-container">
+        <div className="card-body">
+          <div className="stream-container">
             {sequence.length === 0 ? (
               <span className="empty-snippet">No trace log detected.</span>
             ) : (
               sequence.map((item, idx) => {
                 const address = typeof item === 'object' ? item.address : item;
                 return (
-                  <div key={idx} className="trace-tile">
-                    <span className="trace-val">{address}</span>
+                  <div key={idx} className="tile">
+                    <span className="val">{address}</span>
                   </div>
                 );
               })
@@ -72,17 +72,17 @@ export default function TraceLog({ sequence = [] }) {
 
       {/* Expanded Blurred Overlay Modal */}
       {isOpen && (
-        <div className="trace-overlay" onClick={() => setIsOpen(false)}>
-          <div className="trace-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="trace-modal-ribbon">
+        <div className="modal-overlay" onClick={() => setIsOpen(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-ribbon">
               <span className="ribbon-title">FULL TRACE SEQUENCE</span>
               <button className="close-btn" onClick={() => setIsOpen(false)}>
                 ✕
               </button>
             </div>
 
-            <div className="trace-modal-body">
-              <div className="expanded-sequence-grid">
+            <div className="modal-body">
+              <div className="sequence-grid">
                 {sequence.map((item, idx) => {
                   const address = typeof item === 'object' ? item.address : item;
                   return (
@@ -94,9 +94,9 @@ export default function TraceLog({ sequence = [] }) {
               </div>
             </div>
 
-            <div className="trace-modal-footer">
+            <div className="modal-footer">
               <span className="count-info">{sequence.length} TOTAL ACCESSES</span>
-              <button className="trace-tab-btn modal-download" onClick={handleDownload}>
+              <button className="tab-btn modal-download" onClick={handleDownload}>
                 DOWNLOAD .TXT
               </button>
             </div>
