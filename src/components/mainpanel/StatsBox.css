@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Space+Mono:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Share+Tech+Mono&display=swap');
 
 /* Main outer container shrinks tightly around the cards */
 .stats-container {
@@ -24,7 +25,7 @@
   gap: 0.75rem;
 }
 
-/* 📦 Individual StatTracker Card with Border & Shadow */
+/* Individual StatTracker Card with Border & Shadow */
 .stat-card {
   box-sizing: border-box;
   border: 1.5px solid #5D1838;
@@ -37,9 +38,9 @@
 }
 
 .stat-card-title {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Chakra Petch', sans-serif;
   font-weight: 700;
-  font-size: 11px;
+  font-size: 16px;
   color: #5D1838;
   border-bottom: 1px dotted rgba(93, 24, 56, 0.4);
   padding-bottom: 0.2rem;
@@ -55,22 +56,23 @@
   line-height: 1.2;
 }
 
-.label-lru {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
+.label-lru, .label-mru {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
   font-weight: bold;
-  color: #903643;
 }
 
 .label-mru {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  font-weight: bold;
   color: #5D1838;
 }
 
+.label-lru {
+  color: #903643;
+}
+
 .stat-val {
-  font-family: 'Questrial', sans-serif;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
   font-weight: 600;
   color: #532635;
 }

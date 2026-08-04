@@ -1,0 +1,180 @@
+/* ==========================================================================
+   Cache Components Palette & Variables
+   ========================================================================== */
+:root {
+  --cache-bg-cream: #f4ebd9;
+  --cache-bg-dark: #221b1b;
+  --cache-border: #4d3a3a;
+  --cache-accent-pink: #f28b9b;
+  --cache-accent-lru: #4a82a6;
+  --cache-accent-mru: #4aa67b;
+  --cache-hit: #2e7d32;
+  --cache-miss: #d84315;
+  --cache-evicted: #c62828;
+}
+
+/* ==========================================================================
+   1. CacheContainer
+   ========================================================================== */
+
+   .cache-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  height: 100%; /* Takes 100% of the 58% top area */
+  box-sizing: border-box;
+  padding: 16px;
+  background-color: var(--cache-bg-cream);
+  border: 2px solid var(--cache-border);
+  box-shadow: 4px 4px 0px var(--cache-border);
+}
+
+.cache-container__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px dashed var(--cache-border);
+  padding-bottom: 6px;
+  flex-shrink: 0;
+}
+
+/* Inner scroll list fills whatever height is left inside container */
+.cache-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* ==========================================================================
+   2. CacheList
+   ========================================================================== */
+.cache-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   3. CacheBlock
+   ========================================================================== */
+.cache-block {
+  display: grid;
+  grid-template-columns: 80px 1fr 120px 80px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background-color: #fffaf0;
+  border: 2px solid var(--cache-border);
+  transition: all 0.25s ease-in-out;
+  position: relative;
+}
+
+.cache-block__slot {
+  font-family: monospace;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #735c5c;
+}
+
+.cache-block__data {
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--cache-border);
+}
+
+/* Recency Bar Styling */
+.cache-block__recency {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: monospace;
+  font-size: 0.65rem;
+  color: #735c5c;
+}
+
+.cache-block__bar-track {
+  width: 100%;
+  height: 8px;
+  background-color: #e0d5c1;
+  border: 1px solid var(--cache-border);
+  overflow: hidden;
+}
+
+.cache-block__bar-fill {
+  height: 100%;
+  background-color: var(--cache-accent-lru);
+  transition: width 0.3s ease;
+}
+
+.cache-block__pointers {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 24px;
+}
+
+/* --- Status Glow Animations --- */
+.cache-block--hit {
+  border-color: var(--cache-hit);
+  background-color: #e8f5e9;
+  box-shadow: 0 0 10px rgba(46, 125, 50, 0.5);
+}
+
+.cache-block--miss {
+  border-color: var(--cache-miss);
+  background-color: #fbe9e7;
+  box-shadow: 0 0 10px rgba(216, 67, 21, 0.5);
+}
+
+.cache-block--evicted {
+  border-color: var(--cache-evicted);
+  background-color: #ffebee;
+  box-shadow: 0 0 10px rgba(198, 40, 40, 0.5);
+}
+
+/* ==========================================================================
+   4. CachePointer
+   ========================================================================== */
+.cache-pointer {
+  font-family: monospace;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border: 1.5px solid var(--cache-border);
+  box-shadow: 2px 2px 0px var(--cache-border);
+  white-space: nowrap;
+  animation: pointerPulse 1.2s infinite alternate ease-in-out;
+}
+
+.cache-pointer--mru {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border-color: #0f5132;
+}
+
+.cache-pointer--lru {
+  background-color: #cff4fc;
+  color: #055160;
+  border-color: #055160;
+}
+
+@keyframes pointerPulse {
+  0% { transform: translateX(0px); }
+  100% { transform: translateX(3px); }
+}
+
+.cache-containers-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}

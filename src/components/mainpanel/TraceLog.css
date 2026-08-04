@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&display=swap');
+
 .trace-panel-container {
   width: 100%;
-  max-width: 610px;
+  height: 100%;
   margin-top: 1rem;
+  display: flex;           
+  flex-direction: column; 
+  box-sizing: border-box;
 }
 
 /* Card Container */
@@ -9,14 +14,19 @@
   position: relative;
   border: 1.5px solid #5D1838;
   background-color: #FFFDF8;
-  padding: 0.8rem 0.8rem 0.5rem 0.8rem;
+  padding: 1.2rem 0.8rem 0.5rem 0.8rem; /* Adjusted top padding for 24px VT323 tab */
   box-shadow: 3px 3px 0px rgba(93, 24, 56, 0.15);
+
+  height: 100%;             
+  display: flex;            
+  flex-direction: column;   
+  box-sizing: border-box;
 }
 
 /* Hanging Bookmark Bar (Pinned to Top) */
 .trace-bookmark-bar {
   position: absolute;
-  top: -10px;
+  top: -14px; /* Shifted up to align with 24px VT323 height */
   left: 12px;
   right: 12px;
   display: flex;
@@ -25,15 +35,16 @@
   pointer-events: none; /* Allows click-through outside buttons */
 }
 
-/* Main Bookmark Title Tag */
+/* Main Bookmark Title Tag - VT323 24px */
 .trace-bookmark-tab.main-label {
   background-color: #5D1838;
   color: #FFFDF8;
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 10px;
-  letter-spacing: 1px;
+  font-family: 'VT323', monospace;
+  font-size: 24px;
+  line-height: 0.85;
+  padding: 3px 10px 1px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   border-radius: 1px;
   pointer-events: auto;
   
@@ -49,18 +60,19 @@
   pointer-events: auto;
 }
 
+/* Glitchy Pixel Buttons (EXPAND / DOWNLOAD .TXT) */
 .trace-tab-btn {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Silkscreen', cursive;
   font-size: 9px;
-  font-weight: 700;
   color: #FFFDF8;
   background-color: #5D1838;
   border: 1px solid #5D1838;
-  padding: 2px 8px;
+  padding: 4px 9px;
   cursor: pointer;
   letter-spacing: 0.5px;
   transition: all 0.1s ease;
   box-shadow: 1px 1px 0px rgba(93, 24, 56, 0.2);
+  text-transform: uppercase;
 }
 
 .trace-tab-btn:hover:not(:disabled) {
@@ -151,9 +163,10 @@
 }
 
 .ribbon-title {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 1px;
 }
 
 .close-btn {
@@ -161,8 +174,8 @@
   border: none;
   color: #FFFDF8;
   cursor: pointer;
-  font-weight: 700;
-  font-size: 12px;
+  font-family: 'Silkscreen', cursive;
+  font-size: 11px;
 }
 
 .trace-modal-body {
@@ -207,5 +220,6 @@
 }
 
 .modal-download {
+  font-family: 'Silkscreen', cursive;
   padding: 0.35rem 0.75rem;
 }

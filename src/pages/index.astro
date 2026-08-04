@@ -1,10 +1,11 @@
 ---
 import '../index.css';
+import '../components/simulation/CacheComponents.css';
+
 import Configs from '../components/Configs.jsx';
-import MainPanel from '../components/mainpanel/MainPanel.jsx';
-import SequencePanel from '../components/mainpanel/SequencePanel.jsx';
-import TracePanel from '../components/mainpanel/TraceLog.jsx';
-import Player from '../components/mainpanel/Player.jsx';
+import CenterElems from '../components/mainpanel/CenterElems.jsx';
+import RightElems from '../components/mainpanel/RightElems.jsx';
+import CacheContainer from '../components/simulation/CacheContainer.jsx';
 ---
 
 <html lang="en">
@@ -14,20 +15,23 @@ import Player from '../components/mainpanel/Player.jsx';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FA Cache Simulator</title>
   </head>
+
   <body>
     <div class="simulation-layout">
-      <!-- Sidebar for System Configurations -->
-      <aside class="config-sidebar">
-        <Configs client:load />
-      </aside>
-
-      <!-- Main Area: Houses MainPanel, SequencePanel, Player, and TracePanel -->
+      <!-- 1. Main Simulation Area (LRU / MRU Cache Containers) -->
       <main class="simulation-area">
-        <MainPanel client:load />
-        <SequencePanel client:load />
-        <Player client:load />
-        <TracePanel client:load />
+        <div class="cache-containers-wrapper">
+          <CacheContainer policy="LRU" client:load />
+          <CacheContainer policy="MRU" client:load />
+        </div>
       </main>
+
+      <!-- 2. Bottombar (Configs | CenterElems | RightElems) -->
+      <aside class="config-bottombar">
+        <Configs client:load />
+        <CenterElems client:load />
+        <RightElems client:load />
+      </aside>
     </div>
   </body>
 </html>

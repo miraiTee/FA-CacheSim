@@ -1,0 +1,25 @@
+.main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  height: 100%;
+  min-width: 0; /* CRITICAL: Prevents children from expanding horizontally */
+  box-sizing: border-box;
+}
+
+.main-panel-section {
+  width: 100%;
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
+.main-panel-section--trace {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}

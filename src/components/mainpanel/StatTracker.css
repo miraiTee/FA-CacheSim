@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&display=swap');
+
 /* Individual Tile Card */
 .stat-card {
   border: 1px solid #5D1838;
@@ -10,9 +12,9 @@
 }
 
 .stat-card-title {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Silkscreen', cursive;
   font-weight: 700;
-  font-size: 10px;
+  font-size: 16px;
   color: #5D1838;
   border-bottom: 1px dotted rgba(93, 24, 56, 0.3);
   padding-bottom: 0.15rem;
