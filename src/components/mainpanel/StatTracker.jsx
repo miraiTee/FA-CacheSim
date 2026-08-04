@@ -1,5 +1,5 @@
-import React from 'react';
-import './StatTracker.css';
+import React from "react";
+import "./StatTracker.css";
 
 export default function StatTracker({ title, lru, mru }) {
   return (

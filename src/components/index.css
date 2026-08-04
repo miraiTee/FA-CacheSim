@@ -1,12 +1,13 @@
 /* Lock root viewport */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100vh;
   width: 100vw;
   overflow: hidden; /* Keeps UI cleanly fitted on screen */
   background-color: #f3efe0;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 
 /* Overall Page Layout Wrapper */
@@ -24,7 +25,7 @@ html, body {
 .simulation-area {
   width: 100%;
   flex: 58 1 0%;
-  min-height: 0; 
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }

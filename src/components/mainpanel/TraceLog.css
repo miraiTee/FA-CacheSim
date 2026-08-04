@@ -1,24 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&display=swap");
 
 .panel-container {
   width: 100%;
   height: 100%;
   margin-top: 1rem;
-  display: flex;           
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
 }
 
 /* Base Card Container */
 .card {
   position: relative;
-  border: 1.5px solid #5D1838;
-  background-color: #FFFDF8;
+  border: 1.5px solid #5d1838;
+  background-color: #fffdf8;
   padding: 1.2rem 0.8rem 0.5rem 0.8rem;
   box-shadow: 3px 3px 0px rgba(93, 24, 56, 0.15);
-  height: 100%;             
-  display: flex;            
-  flex-direction: column;   
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
 }
 
@@ -36,9 +36,9 @@
 
 /* Main Bookmark Label Tag */
 .bookmark-label {
-  background-color: #5D1838;
-  color: #FFFDF8;
-  font-family: 'VT323', monospace;
+  background-color: #5d1838;
+  color: #fffdf8;
+  font-family: "VT323", monospace;
   font-size: 24px;
   line-height: 0.85;
   padding: 3px 10px 1px;
@@ -46,8 +46,8 @@
   text-transform: uppercase;
   border-radius: 1px;
   pointer-events: auto;
-  border: 1px solid #5D1838;
-  outline: 2px solid #FFFDF8;
+  border: 1px solid #5d1838;
+  outline: 2px solid #fffdf8;
   z-index: 2;
 }
 
@@ -60,11 +60,11 @@
 
 /* Glitchy Pixel Buttons */
 .tab-btn {
-  font-family: 'Silkscreen', cursive;
+  font-family: "Silkscreen", cursive;
   font-size: 9px;
-  color: #FFFDF8;
-  background-color: #5D1838;
-  border: 1px solid #5D1838;
+  color: #fffdf8;
+  background-color: #5d1838;
+  border: 1px solid #5d1838;
   padding: 4px 9px;
   cursor: pointer;
   letter-spacing: 0.5px;
@@ -74,7 +74,7 @@
 }
 
 .tab-btn:hover:not(:disabled) {
-  background-color: #7A224B;
+  background-color: #7a224b;
   transform: translateY(-1px);
 }
 
@@ -99,7 +99,7 @@
   overflow-y: hidden;
   padding: 0.2rem 0;
   scrollbar-width: thin;
-  scrollbar-color: #5D1838 #FFFDF8;
+  scrollbar-color: #5d1838 #fffdf8;
   width: 100%;
 }
 
@@ -108,21 +108,21 @@
 }
 
 .stream-container::-webkit-scrollbar-track {
-  background: #FFFDF8;
+  background: #fffdf8;
   border: 1px solid rgba(93, 24, 56, 0.2);
 }
 
 .stream-container::-webkit-scrollbar-thumb {
-  background-color: #5D1838;
-  border-radius: 0px;     
+  background-color: #5d1838;
+  border-radius: 0px;
 }
 
 .stream-container::-webkit-scrollbar-thumb:hover {
-  background-color: #7A224B;
+  background-color: #7a224b;
 }
 
 .empty-snippet {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 10px;
   color: rgba(93, 24, 56, 0.4);
   font-style: italic;
@@ -130,7 +130,7 @@
 
 .tile {
   border: 1px solid rgba(93, 24, 56, 0.5);
-  background-color: #FFFDF8;
+  background-color: #fffdf8;
   padding: 0.2rem 0.45rem;
   display: flex;
   align-items: center;
@@ -138,10 +138,10 @@
 }
 
 .val {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 11px;
   font-weight: 700;
-  color: #5D1838;
+  color: #5d1838;
 }
 
 /* Expanded Modal Overlay */
@@ -161,19 +161,19 @@
 }
 
 .modal {
-  background-color: #FFFDF8;
-  border: 2px solid #5D1838;
+  background-color: #fffdf8;
+  border: 2px solid #5d1838;
   width: 90%;
   max-width: 580px;
   max-height: 75vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 6px 6px 0px #5D1838;
+  box-shadow: 6px 6px 0px #5d1838;
 }
 
 .modal-ribbon {
-  background-color: #5D1838;
-  color: #FFFDF8;
+  background-color: #5d1838;
+  color: #fffdf8;
   padding: 0.5rem 0.8rem;
   display: flex;
   justify-content: space-between;
@@ -181,7 +181,7 @@
 }
 
 .ribbon-title {
-  font-family: 'VT323', monospace;
+  font-family: "VT323", monospace;
   font-size: 22px;
   line-height: 1;
   letter-spacing: 1px;
@@ -190,9 +190,9 @@
 .close-btn {
   background: transparent;
   border: none;
-  color: #FFFDF8;
+  color: #fffdf8;
   cursor: pointer;
-  font-family: 'Silkscreen', cursive;
+  font-family: "Silkscreen", cursive;
   font-size: 11px;
 }
 
@@ -201,7 +201,7 @@
   overflow-y: auto;
   flex: 1;
   scrollbar-width: thin;
-  scrollbar-color: #5D1838 #FFFDF8;
+  scrollbar-color: #5d1838 #fffdf8;
 }
 
 .modal-body::-webkit-scrollbar {
@@ -209,17 +209,17 @@
 }
 
 .modal-body::-webkit-scrollbar-track {
-  background: #FFFDF8;
+  background: #fffdf8;
   border-left: 1px solid rgba(93, 24, 56, 0.2);
 }
 
 .modal-body::-webkit-scrollbar-thumb {
-  background-color: #5D1838;
-  border-radius: 0px;       
+  background-color: #5d1838;
+  border-radius: 0px;
 }
 
 .modal-body::-webkit-scrollbar-thumb:hover {
-  background-color: #7A224B;
+  background-color: #7a224b;
 }
 
 .sequence-grid {
@@ -229,16 +229,16 @@
 }
 
 .modal-tile {
-  border: 1px solid #5D1838;
+  border: 1px solid #5d1838;
   padding: 0.25rem 0.5rem;
-  background-color: #FFFDF8;
+  background-color: #fffdf8;
 }
 
 .modal-val {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 11px;
   font-weight: 700;
-  color: #5D1838;
+  color: #5d1838;
 }
 
 .modal-footer {
@@ -251,13 +251,13 @@
 }
 
 .count-info {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 10px;
   font-weight: 700;
-  color: #5D1838;
+  color: #5d1838;
 }
 
 .modal-download {
-  font-family: 'Silkscreen', cursive;
+  font-family: "Silkscreen", cursive;
   padding: 0.35rem 0.75rem;
 }

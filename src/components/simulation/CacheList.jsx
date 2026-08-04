@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { CachePointer } from "./CachePointer";
 
 export default function CacheList({ slots = [] }) {
   return (
@@ -26,7 +27,10 @@ export default function CacheList({ slots = [] }) {
               const isEmpty = slot.data === null || slot.data === undefined;
 
               return (
-                <tr key={slot.slotIndex} className={`cache-row status-${slot.status}`}>
+                <tr
+                  key={slot.slotIndex}
+                  className={`cache-row status-${slot.status}`}
+                >
                   {/* Slot Number */}
                   <td className="col-slot">#{slot.slotIndex}</td>
 
@@ -42,7 +46,9 @@ export default function CacheList({ slots = [] }) {
                   {/* Recency Percentage & Visual Bar */}
                   <td className="col-recency">
                     <div className="recency-cell">
-                      <span className="recency-val">{Math.round(recency)}%</span>
+                      <span className="recency-val">
+                        {Math.round(recency)}%
+                      </span>
                       <div className="recency-bar-track">
                         <div
                           className="recency-bar-fill"
@@ -52,10 +58,10 @@ export default function CacheList({ slots = [] }) {
                     </div>
                   </td>
 
-                  {/* Pointer Badge */}
+                  {/* Dynamic Pointer Badge */}
                   <td className="col-pointer">
                     {slot.pointerTag ? (
-                      <span className="pointer-badge">{slot.pointerTag}</span>
+                      <CachePointer type={slot.pointerTag} />
                     ) : (
                       <span className="pointer-none">-</span>
                     )}

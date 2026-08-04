@@ -1,14 +1,15 @@
 .stats-box-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-  grid-template-rows: repeat(2, auto);    /* 2 rows */
-  gap: 8px;                               /* Adjust spacing between boxes */
+  grid-template-rows: repeat(2, auto); /* 2 rows */
+  gap: 8px; /* Adjust spacing between boxes */
   width: 100%;
   box-sizing: border-box;
 }
 
 /* Ensure individual cards fill their grid cells properly */
-.stat-card, .box {
+.stat-card,
+.box {
   display: flex;
   flex-direction: column;
   justify-content: center;

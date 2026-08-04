@@ -1,20 +1,19 @@
-import React from 'react';
-import StatTracker from './StatTracker';
-import './StatsBox.css';
+import React from "react";
+import StatTracker from "./StatTracker";
+import "./StatsBox.css";
 
-export default function StatsBox({
-  lruStats,
-  mruStats,
-}) {
+export default function StatsBox({ lruStats, mruStats }) {
   const lru = lruStats || {};
   const mru = mruStats || {};
 
   // Helpers to format rates and timings cleanly
   const formatPercent = (val) =>
-    val !== undefined && val !== null ? `${(val * 100).toFixed(2)}%` : '0.00%';
+    val !== undefined && val !== null ? `${(val * 100).toFixed(2)}%` : "0.00%";
 
   const formatNs = (val) =>
-    val !== undefined && val !== null ? `${Number(val).toFixed(2)} ns` : '0.00 ns';
+    val !== undefined && val !== null
+      ? `${Number(val).toFixed(2)} ns`
+      : "0.00 ns";
 
   return (
     <div className="stats-box-container">

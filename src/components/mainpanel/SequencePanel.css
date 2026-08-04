@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&family=Space+Mono:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&family=Space+Mono:wght@700&display=swap");
 
 /* Fill all vertical space passed down from .sequence-section */
 .panel-container {
@@ -14,8 +14,8 @@
 /* Base Outer Card */
 .panel {
   position: relative;
-  border: 1.5px solid #5D1838;
-  background-color: #FFFDF8;
+  border: 1.5px solid #5d1838;
+  background-color: #fffdf8;
   padding: 1.2rem 0.8rem 0.6rem 0.8rem;
   box-shadow: 3px 3px 0px rgba(93, 24, 56, 0.15);
   height: 100%;
@@ -35,17 +35,17 @@
 }
 
 .bookmark-tab {
-  background-color: #5D1838;
-  color: #FFFDF8;
-  font-family: 'VT323', monospace;
+  background-color: #5d1838;
+  color: #fffdf8;
+  font-family: "VT323", monospace;
   font-size: 24px;
   line-height: 0.85;
   padding: 3px 10px 1px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   border-radius: 1px;
-  border: 1px solid #5D1838;
-  outline: 2px solid #FFFDF8;
+  border: 1px solid #5d1838;
+  outline: 2px solid #fffdf8;
   z-index: 2;
   pointer-events: auto;
 }
@@ -65,7 +65,7 @@
   align-items: center;
   gap: 0.4rem;
   scrollbar-width: thin;
-  scrollbar-color: #5D1838 #FBFAF0;
+  scrollbar-color: #5d1838 #fbfaf0;
 }
 
 /* Custom Webkit Retro Scrollbar for Horizontal Scroll */
@@ -74,16 +74,16 @@
 }
 
 .stream-container::-webkit-scrollbar-track {
-  background: #FBFAF0;
+  background: #fbfaf0;
   border: 1px solid rgba(93, 24, 56, 0.2);
 }
 
 .stream-container::-webkit-scrollbar-thumb {
-  background: #5D1838;
+  background: #5d1838;
 }
 
 .empty-sequence-text {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 10px;
   color: rgba(93, 24, 56, 0.4);
   font-style: italic;
@@ -91,7 +91,7 @@
 
 .seq-tile {
   border: 1px solid rgba(93, 24, 56, 0.5);
-  background-color: #FFFDF8;
+  background-color: #fffdf8;
   padding: 0.2rem 0.45rem;
   display: flex;
   align-items: center;
@@ -101,8 +101,8 @@
 }
 
 .seq-val {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 11px;
   font-weight: 700;
-  color: #5D1838;
+  color: #5d1838;
 }

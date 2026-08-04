@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Share+Tech+Mono&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Share+Tech+Mono&display=swap");
 
 .player-panel-container {
   width: 100%;
@@ -9,8 +9,8 @@
 /* Card Container */
 .player-panel {
   position: relative;
-  border: 1.5px solid #5D1838;
-  background-color: #FFFDF8;
+  border: 1.5px solid #5d1838;
+  background-color: #fffdf8;
   padding: 1.1rem 0.8rem 0.5rem 0.8rem;
   box-shadow: 3px 3px 0px rgba(93, 24, 56, 0.15);
   display: flex;
@@ -31,9 +31,9 @@
 }
 
 .player-bookmark-tab {
-  background-color: #5D1838;
-  color: #FFFDF8;
-  font-family: 'VT323', monospace;
+  background-color: #5d1838;
+  color: #fffdf8;
+  font-family: "VT323", monospace;
   font-size: 24px;
   line-height: 0.85;
   padding: 3px 10px 1px;
@@ -41,8 +41,8 @@
   text-transform: uppercase;
   border-radius: 1px;
   pointer-events: auto;
-  border: 1px solid #5D1838;
-  outline: 2px solid #FFFDF8;
+  border: 1px solid #5d1838;
+  outline: 2px solid #fffdf8;
 }
 
 /* Timeline Scrubber (Disabled / Read-Only Progress Bar) */
@@ -69,15 +69,15 @@
   appearance: none;
   width: 12px;
   height: 12px;
-  background: #5D1838;
-  border: 1px solid #FFFDF8;
+  background: #5d1838;
+  border: 1px solid #fffdf8;
   border-radius: 50%;
   box-shadow: 1px 1px 0px rgba(93, 24, 56, 0.4);
   cursor: default;
 }
 
 .player-timeline-scrubber:disabled::-webkit-slider-thumb {
-  background: #5D1838;
+  background: #5d1838;
   cursor: default;
 }
 
@@ -95,12 +95,12 @@
 
 /* Player Button (Play / Pause Only) */
 .player-btn {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 14px;            
-  font-weight: 700;          
-  color: #FFFDF8;
-  background-color: #5D1838;
-  border: 1px solid #5D1838;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fffdf8;
+  background-color: #5d1838;
+  border: 1px solid #5d1838;
   padding: 4px 12px;
   min-width: 36px;
   cursor: pointer;
@@ -112,7 +112,7 @@
 }
 
 .player-btn:hover:not(:disabled) {
-  background-color: #7A224B;
+  background-color: #7a224b;
   transform: translateY(-1px);
 }
 
@@ -123,16 +123,16 @@
 }
 
 .player-counter {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 14px;            
+  font-family: "Share Tech Mono", monospace;
+  font-size: 14px;
   font-weight: 700;
-  color: #5D1838;
+  color: #5d1838;
   letter-spacing: 0.8px;
 }
 
 .player-step-num {
-  font-size: 14px;  
-  font-family: 'Share Tech Mono', monospace;          
+  font-size: 14px;
+  font-family: "Share Tech Mono", monospace;
   text-decoration: underline;
   color: #903643;
 }

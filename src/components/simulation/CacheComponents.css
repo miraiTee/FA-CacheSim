@@ -17,7 +17,7 @@
    1. CacheContainer
    ========================================================================== */
 
-   .cache-container {
+.cache-container {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -55,13 +55,13 @@
    2. CacheList
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&family=Share+Tech+Mono&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&family=Share+Tech+Mono&display=swap");
 
 /* Main Cache Box Layout */
 .cache-container {
-  border: 2px solid #5D1838;
-  background-color: #FBFAF0;
-  box-shadow: 4px 4px 0px #5D1838;
+  border: 2px solid #5d1838;
+  background-color: #fbfaf0;
+  box-shadow: 4px 4px 0px #5d1838;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -75,21 +75,21 @@
   justify-content: space-between;
   align-items: baseline;
   padding: 0.6rem 0.8rem 0.4rem;
-  border-bottom: 1.5px dashed #5D1838;
+  border-bottom: 1.5px dashed #5d1838;
   flex-shrink: 0;
 }
 
 .cache-container__title {
-  font-family: 'VT323', monospace;
+  font-family: "VT323", monospace;
   font-size: 26px;
   line-height: 1;
-  color: #5D1838;
+  color: #5d1838;
   margin: 0;
   letter-spacing: 1px;
 }
 
 .cache-container__subtitle {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 11px;
   color: rgba(93, 24, 56, 0.7);
 }
@@ -103,31 +103,31 @@
   box-sizing: border-box;
 
   scrollbar-width: thin;
-  scrollbar-color: #5D1838 #FBFAF0;
+  scrollbar-color: #5d1838 #fbfaf0;
 }
 
 /* Table Alignment */
 .cache-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: "Share Tech Mono", monospace;
   text-align: left;
 }
 
 .cache-table thead {
   position: sticky;
   top: 0;
-  background-color: #FBFAF0;
+  background-color: #fbfaf0;
   z-index: 2;
 }
 
 .cache-table th {
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
   font-size: 10px;
   font-weight: 700;
-  color: #5D1838;
+  color: #5d1838;
   padding: 0.4rem;
-  border-bottom: 1.5px solid #5D1838;
+  border-bottom: 1.5px solid #5d1838;
   letter-spacing: 0.5px;
 }
 
@@ -144,12 +144,12 @@
 }
 
 .cache-table-container::-webkit-scrollbar-track {
-  background: #FBFAF0;
-  border-left: 1px solid #5D1838;
+  background: #fbfaf0;
+  border-left: 1px solid #5d1838;
 }
 
 .cache-table-container::-webkit-scrollbar-thumb {
-  background: #5D1838;
+  background: #5d1838;
   border-radius: 0px;
 }
 
@@ -161,7 +161,7 @@
 .col-slot {
   width: 60px;
   font-weight: bold;
-  color: #5D1838;
+  color: #5d1838;
 }
 
 .col-data {
@@ -176,9 +176,9 @@
 
 .data-tag {
   font-weight: bold;
-  color: #5D1838;
-  background-color: #FFFDF8;
-  border: 1px solid #5D1838;
+  color: #5d1838;
+  background-color: #fffdf8;
+  border: 1px solid #5d1838;
   padding: 1px 6px;
   border-radius: 1px;
 }
@@ -196,8 +196,8 @@
 
 .recency-val {
   font-size: 10px;
-  font-family: 'Space Mono', monospace;
-  color: #5D1838;
+  font-family: "Space Mono", monospace;
+  color: #5d1838;
   width: 32px;
   text-align: right;
 }
@@ -205,15 +205,15 @@
 .recency-bar-track {
   flex: 1;
   height: 6px;
-  background-color: #FFFDF8;
-  border: 1px solid #5D1838;
+  background-color: #fffdf8;
+  border: 1px solid #5d1838;
   border-radius: 1px;
   overflow: hidden;
 }
 
 .recency-bar-fill {
   height: 100%;
-  background-color: #5D1838;
+  background-color: #5d1838;
   transition: width 0.2s ease-in-out;
 }
 
@@ -224,10 +224,10 @@
 }
 
 .pointer-badge {
-  font-family: 'VT323', monospace;
+  font-family: "VT323", monospace;
   font-size: 14px;
-  background-color: #5D1838;
-  color: #FFFDF8;
+  background-color: #5d1838;
+  color: #fffdf8;
   padding: 1px 6px;
   border-radius: 1px;
 }
@@ -276,8 +276,12 @@
 }
 
 @keyframes pointerPulse {
-  0% { transform: translateX(0px); }
-  100% { transform: translateX(3px); }
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(3px);
+  }
 }
 
 .cache-containers-wrapper {

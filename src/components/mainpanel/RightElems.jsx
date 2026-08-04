@@ -1,7 +1,7 @@
-import React from 'react';
-import StatsBox from './StatsBox';
-import SequencePanel from './SequencePanel';
-import './RightElems.css';
+import React from "react";
+import StatsBox from "./StatsBox";
+import SequencePanel from "./SequencePanel";
+import "./RightElems.css";
 
 export default function RightElems({
   lruStats = null,
@@ -18,10 +18,7 @@ export default function RightElems({
 
       {/* 2. SEQUENCE PANEL */}
       <div className="sequence-section">
-        <SequencePanel 
-          sequence={sequenceData} 
-          isRandom={isRandom}
-        />
+        <SequencePanel sequence={sequenceData} isRandom={isRandom} />
       </div>
     </div>
   );

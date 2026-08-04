@@ -1,5 +1,5 @@
-import React from 'react';
-import './SequencePanel.css';
+import React from "react";
+import "./SequencePanel.css";
 
 export default function SequencePanel({ sequence = [] }) {
   return (
@@ -16,7 +16,7 @@ export default function SequencePanel({ sequence = [] }) {
             <span className="empty-sequence-text">No sequence detected.</span>
           ) : (
             sequence.map((item, idx) => {
-              const address = typeof item === 'object' ? item.address : item;
+              const address = typeof item === "object" ? item.address : item;
 
               return (
                 <div key={idx} className="seq-tile">

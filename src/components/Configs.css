@@ -1,117 +1,117 @@
 /* Universal box-sizing fix inside configs */
 .container,
 .container * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* Inner Configuration Box Styles */
 .container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 320px;
-    height: 100%;
-    background-color: #fffefc;
-    border: 3px solid #967e68;
-    padding: 18px;
-    box-shadow: 4px 4px 0px #967e68;
-    font-family: 'Karla', sans-serif;
-    color: #967e68;
-    overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 320px;
+  height: 100%;
+  background-color: #fffefc;
+  border: 3px solid #967e68;
+  padding: 18px;
+  box-shadow: 4px 4px 0px #967e68;
+  font-family: "Karla", sans-serif;
+  color: #967e68;
+  overflow: hidden;
 }
 
 /* Header - Pastel Pink */
 .container h2 {
-    font-family: 'Love Ya Like A Sister', serif;
-    font-size: 1.25rem;
-    font-weight: normal;
-    text-align: center;
-    border-bottom: 3px solid #967e68;
-    text-transform: uppercase;
-    background: #f7a8b8;
-    color: #fffefc;
-    margin: -18px -18px 12px -18px; 
-    padding: 8px 12px; 
-    text-shadow: 1px 1px 0px #967e68;
-    flex-shrink: 0;
-    -webkit-text-stroke: 0.5px #967e68;
-    paint-order: stroke fill;
+  font-family: "Love Ya Like A Sister", serif;
+  font-size: 1.25rem;
+  font-weight: normal;
+  text-align: center;
+  border-bottom: 3px solid #967e68;
+  text-transform: uppercase;
+  background: #f7a8b8;
+  color: #fffefc;
+  margin: -18px -18px 12px -18px;
+  padding: 8px 12px;
+  text-shadow: 1px 1px 0px #967e68;
+  flex-shrink: 0;
+  -webkit-text-stroke: 0.5px #967e68;
+  paint-order: stroke fill;
 }
 
 /* Form Input Rows */
 .field {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  gap: 10px;
 }
 
 /* Form Inputs & Selects */
 .field select,
 .field input {
-    width: 180px;
-    min-width: 180px;
-    padding: 4px 8px;
-    font-family: 'Karla', sans-serif;
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: #967e68;
-    border: 2px solid #967e68;
-    border-radius: 0px;
-    background-color: #fffefc;
-    box-shadow: 2px 2px 0px #f7a8b8;
-    outline: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  width: 180px;
+  min-width: 180px;
+  padding: 4px 8px;
+  font-family: "Karla", sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #967e68;
+  border: 2px solid #967e68;
+  border-radius: 0px;
+  background-color: #fffefc;
+  box-shadow: 2px 2px 0px #f7a8b8;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .field select:focus,
 .field input:focus {
-    background-color: #e0f7fa;
-    border-color: #5bcefa;
+  background-color: #e0f7fa;
+  border-color: #5bcefa;
 }
 
 .field input:disabled {
-    background-color: #eee8db;
-    color: #b5a495;
-    cursor: not-allowed;
+  background-color: #eee8db;
+  color: #b5a495;
+  cursor: not-allowed;
 }
 
 /* Action Button */
 .run-btn {
-    display: block;
-    width: 100%;
-    margin-top: auto;
-    padding: 8px;
-    background-color: #5bcefa;
-    color: #5D1838;
-    font-family: 'Love Ya Like A Sister', serif;
-    font-size: 1.15rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border: 3px solid #967e68;
-    border-radius: 0px;
-    cursor: pointer;
-    box-shadow: 4px 4px 0px #967e68;
-    transition: all 0.05s ease;
-    text-shadow: 1px 1px 0px #fffefc; 
-    flex-shrink: 0;
-    -webkit-text-stroke: 0.5px #967e68;
-    paint-order: stroke fill;
+  display: block;
+  width: 100%;
+  margin-top: auto;
+  padding: 8px;
+  background-color: #5bcefa;
+  color: #5d1838;
+  font-family: "Love Ya Like A Sister", serif;
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 3px solid #967e68;
+  border-radius: 0px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #967e68;
+  transition: all 0.05s ease;
+  text-shadow: 1px 1px 0px #fffefc;
+  flex-shrink: 0;
+  -webkit-text-stroke: 0.5px #967e68;
+  paint-order: stroke fill;
 }
 
 .run-btn:hover {
-    background-color: #f7a8b8;
-    color: #fffefc;
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #967e68;
+  background-color: #f7a8b8;
+  color: #fffefc;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #967e68;
 }
 
 .run-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px #967e68;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #967e68;
 }

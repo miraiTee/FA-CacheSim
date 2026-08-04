@@ -1,20 +1,59 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import './index.css';
+import React, { useState, useEffect, useCallback } from "react";
+import "./index.css";
 
-import Configs from './Configs.jsx';
-import CenterElems from './mainpanel/CenterElems.jsx';
-import RightElems from './mainpanel/RightElems.jsx';
-import CacheContainer from './simulation/CacheContainer.jsx';
+import Configs from "./Configs.jsx";
+import CenterElems from "./mainpanel/CenterElems.jsx";
+import RightElems from "./mainpanel/RightElems.jsx";
+import CacheContainer from "./simulation/CacheContainer.jsx";
 
-import { simulateCacheWithLogs } from '../sim/algos.js';
-import { DEFAULT_CONFIG, SEQUENCE, generateTestCaseSequence } from '../data/configs.js';
+import { simulateCacheWithLogs } from "../sim/algos.js";
+import {
+  DEFAULT_CONFIG,
+  SEQUENCE,
+  generateTestCaseSequence,
+} from "../data/configs.js";
+
+// Helper to calculate live stats for the current playback step
+const getLiveStats = (simResult, currentStep) => {
+  if (!simResult || !simResult.logs || simResult.logs.length === 0)
+    return simResult;
+
+  const currentLogs = simResult.logs.slice(0, currentStep + 1);
+  const totalAccess = currentLogs.length;
+  const hitCount = currentLogs.filter((log) => log.result === "HIT").length;
+  const missCount = totalAccess - hitCount;
+  const hitRate = totalAccess > 0 ? hitCount / totalAccess : 0;
+  const missRate = 1 - hitRate;
+
+  const cacheAccessTime = simResult.cacheAccessTime || 10;
+  const missPenalty = simResult.missPenalty || 100;
+
+  // AMAT = Hit Time + (Miss Rate * Miss Penalty)
+  const AMAT = cacheAccessTime + missRate * missPenalty;
+  // Total Access Time (TMAT) = Total Accesses * AMAT
+  const TMAT = totalAccess * AMAT;
+
+  return {
+    ...simResult,
+    totalAccess,
+    hitCount,
+    missCount,
+    hitRate,
+    missRate,
+    AMAT,
+    TMAT,
+  };
+};
 
 export default function SimulationApp() {
   const [config, setConfig] = useState(DEFAULT_CONFIG);
 
   // 1. Memory Sequence
   const [sequenceList, setSequenceList] = useState(() =>
-    generateTestCaseSequence(DEFAULT_CONFIG.sequence, DEFAULT_CONFIG.numCacheBlocks)
+    generateTestCaseSequence(
+      DEFAULT_CONFIG.sequence,
+      DEFAULT_CONFIG.numCacheBlocks,
+    ),
   );
   const [currentMem, setCurrentMem] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -28,7 +67,7 @@ export default function SimulationApp() {
     cacheAccessTime: config.cacheAccessTime || 10,
     memoryAccessTime: config.memoryAccessTime || 100,
     readPolicy: config.readPolicy,
-    associativity: config.associativity || 0
+    associativity: config.associativity || 0,
   });
 
   const mruSimResult = simulateCacheWithLogs({
@@ -39,11 +78,15 @@ export default function SimulationApp() {
     cacheAccessTime: config.cacheAccessTime || 10,
     memoryAccessTime: config.memoryAccessTime || 100,
     readPolicy: config.readPolicy,
-    associativity: config.associativity || 0
+    associativity: config.associativity || 0,
   });
 
   // 3. Derive current live state directly from step logs
   const traceLogs = lruSimResult.logs.slice(0, currentMem + 1);
+
+  // Compute step-synchronized stats for UI cards
+  const liveLruStats = getLiveStats(lruSimResult, currentMem);
+  const liveMruStats = getLiveStats(mruSimResult, currentMem);
 
   // Instant mode / Jump to end handler
   const handleJumpToEnd = useCallback(() => {
@@ -54,55 +97,90 @@ export default function SimulationApp() {
   }, [sequenceList.length]);
 
   // Helper to map snapshot array to slot state
-  const buildCacheState = (simResult, currentStep) => {
+  // Helper to map snapshot array to static physical slots with dynamic recency
+  const buildCacheState = (simResult, currentStep, totalCacheBlocks) => {
     const currentLog = simResult.logs[currentStep];
-    const snapshot = currentLog?.snapshot || [];
-    const activeBlock = currentLog?.blk;
-    const resultType = currentLog?.result; // 'HIT' or 'MISS'
+    if (!currentLog) return [];
 
-    return snapshot.map((blockVal, idx) => {
-      const isCurrent = blockVal === activeBlock;
+    const physicalSlots = currentLog.snapshot || []; // Fixed slot values
+    const recencyQueue = currentLog.recencyQueue || []; // Access order [LRU ... MRU]
+    const activeBlock = currentLog.blk;
+    const resultType = currentLog.result;
 
-      // In the snapshot array, index 0 is LRU and index (len - 1) is MRU
-      const recencyPercent = snapshot.length > 1
-        ? Math.round((idx / (snapshot.length - 1)) * 100)
-        : 100;
+    const lruBlock = recencyQueue.length > 0 ? recencyQueue[0] : null;
+    const mruBlock =
+      recencyQueue.length > 0 ? recencyQueue[recencyQueue.length - 1] : null;
 
-      let status = 'idle';
-      if (isCurrent) {
-        status = resultType === 'HIT' ? 'hit' : 'miss';
+    return Array.from({ length: totalCacheBlocks }, (_, slotIndex) => {
+      // Data stays pinned to physical slot index!
+      const blockVal = physicalSlots[slotIndex] ?? null;
+
+      // Find where this block sits in the recency queue
+      const recencyIndex = recencyQueue.indexOf(blockVal);
+      let recencyPercent = 0;
+      if (blockVal !== null && recencyIndex !== -1 && recencyQueue.length > 0) {
+        recencyPercent =
+          recencyQueue.length === 1
+            ? 100
+            : Math.round((recencyIndex / (recencyQueue.length - 1)) * 100);
       }
 
+      // Dynamic pointers: attach badges to whichever physical slot holds lruBlock or mruBlock
+      let pointerTag = null;
+      if (blockVal !== null) {
+        if (blockVal === mruBlock) pointerTag = "MRU";
+        else if (blockVal === lruBlock) pointerTag = "LRU";
+      }
+
+      const isAccessedSlot = blockVal !== null && blockVal === activeBlock;
+
       return {
+        slotNumber: `#${slotIndex}`,
         data: blockVal,
         recencyPercent,
-        status,
-        pointerTag: idx === 0 ? 'LRU' : idx === snapshot.length - 1 ? 'MRU' : null,
+        status: isAccessedSlot
+          ? resultType === "HIT"
+            ? "hit"
+            : "miss"
+          : "idle",
+        pointerTag,
       };
     });
   };
 
   // 4. Declare cache states for both policies
-  const lruCacheState = buildCacheState(lruSimResult, currentMem);
-  const mruCacheState = buildCacheState(mruSimResult, currentMem);
+  const lruCacheState = buildCacheState(
+    lruSimResult,
+    currentMem,
+    config.numCacheBlocks,
+  );
+  const mruCacheState = buildCacheState(
+    mruSimResult,
+    currentMem,
+    config.numCacheBlocks,
+  );
 
   // 5. Config change handler
   const handleConfigChange = (newConfig, isSequenceSelection = false) => {
-    const isCacheSizeChanged = newConfig.numCacheBlocks !== config.numCacheBlocks;
+    const isCacheSizeChanged =
+      newConfig.numCacheBlocks !== config.numCacheBlocks;
 
     let updatedSequence = sequenceList;
-    if (isSequenceSelection || isCacheSizeChanged || newConfig.sequence !== config.sequence) {
+    if (
+      isSequenceSelection ||
+      isCacheSizeChanged ||
+      newConfig.sequence !== config.sequence
+    ) {
       updatedSequence = generateTestCaseSequence(
         newConfig.sequence,
-        newConfig.numCacheBlocks
+        newConfig.numCacheBlocks,
       );
       setSequenceList(updatedSequence);
     }
 
     setConfig(newConfig);
 
-    // Reset or complete step position depending on mode
-    if (newConfig.simulationMode === 'instant') {
+    if (newConfig.simulationMode === "instant") {
       setIsPlaying(false);
       setCurrentMem(Math.max(0, updatedSequence.length - 1));
     } else {
@@ -144,7 +222,8 @@ export default function SimulationApp() {
     setIsPlaying(false);
   };
 
-  const totalMemoryWords = (config.blockSize || 0) * (config.mainMemoryBlocks || 0);
+  const totalMemoryWords =
+    (config.blockSize || 0) * (config.mainMemoryBlocks || 0);
 
   const playerProps = {
     currentMem,
@@ -180,8 +259,8 @@ export default function SimulationApp() {
       <aside className="config-bottombar">
         {/* Column 1: Config */}
         <div className="bottombar-col bottombar-col--left">
-          <Configs 
-            config={config} 
+          <Configs
+            config={config}
             onRunSimulation={handleConfigChange}
             onJumpToEnd={handleJumpToEnd}
           />
@@ -189,17 +268,14 @@ export default function SimulationApp() {
 
         {/* Column 2: Player & Trace Log */}
         <div className="bottombar-col bottombar-col--center">
-          <CenterElems 
-            playerProps={playerProps} 
-            traceLogs={traceLogs}
-          />
+          <CenterElems playerProps={playerProps} traceLogs={traceLogs} />
         </div>
 
         {/* Column 3: Stats & Sequence Panel */}
         <div className="bottombar-col bottombar-col--right">
-          <RightElems 
-            lruStats={lruSimResult}
-            mruStats={mruSimResult}
+          <RightElems
+            lruStats={liveLruStats}
+            mruStats={liveMruStats}
             sequenceData={sequenceList}
             isRandom={config.sequence === SEQUENCE.C}
           />
