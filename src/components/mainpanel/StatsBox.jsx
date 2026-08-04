@@ -10,12 +10,12 @@ export default function StatsBox({
     <div className="stats-container">
       <div className="stats-box">
         {/* TOP ROW */}
+        <div className="stats-row-grid">
           <StatTracker
             title="Tot. Memory Time Access"
             lru={lruStats.totalTime ?? "0 ns"}
             mru={mruStats.totalTime ?? "0 ns"}
           />
-        <div className="stats-row-grid">
           <StatTracker
             title="Cache Hit"
             lru={lruStats.hits ?? 0}
