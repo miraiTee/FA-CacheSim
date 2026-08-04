@@ -1,0 +1,211 @@
+.trace-panel-container {
+  width: 100%;
+  max-width: 610px;
+  margin-top: 1rem;
+}
+
+/* Card Container */
+.trace-log-card {
+  position: relative;
+  border: 1.5px solid #5D1838;
+  background-color: #FFFDF8;
+  padding: 0.8rem 0.8rem 0.5rem 0.8rem;
+  box-shadow: 3px 3px 0px rgba(93, 24, 56, 0.15);
+}
+
+/* Hanging Bookmark Bar (Pinned to Top) */
+.trace-bookmark-bar {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none; /* Allows click-through outside buttons */
+}
+
+/* Main Bookmark Title Tag */
+.trace-bookmark-tab.main-label {
+  background-color: #5D1838;
+  color: #FFFDF8;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 10px;
+  letter-spacing: 1px;
+  border-radius: 1px;
+  pointer-events: auto;
+  
+  border: 1px solid #5D1838;
+  outline: 2px solid #FFFDF8;
+  z-index: 2;
+}
+
+/* Hanging Action Bookmark Tabs */
+.trace-bookmark-actions {
+  display: flex;
+  gap: 0.3rem;
+  pointer-events: auto;
+}
+
+.trace-tab-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: #FFFDF8;
+  background-color: #5D1838;
+  border: 1px solid #5D1838;
+  padding: 2px 8px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.1s ease;
+  box-shadow: 1px 1px 0px rgba(93, 24, 56, 0.2);
+}
+
+.trace-tab-btn:hover:not(:disabled) {
+  background-color: #7A224B;
+  transform: translateY(-1px);
+}
+
+.trace-tab-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Body Content Stream */
+.trace-log-body {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+.trace-stream-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding: 0.2rem 0;
+  scrollbar-width: thin;
+  width: 100%;
+}
+
+.empty-snippet {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(93, 24, 56, 0.4);
+  font-style: italic;
+}
+
+.trace-tile {
+  border: 1px solid rgba(93, 24, 56, 0.5);
+  background-color: #FFFDF8;
+  padding: 0.2rem 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trace-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #5D1838;
+}
+
+/* Expanded Blur Modal */
+.trace-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(93, 24, 56, 0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trace-modal {
+  background-color: #FFFDF8;
+  border: 2px solid #5D1838;
+  width: 90%;
+  max-width: 580px;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 6px 6px 0px #5D1838;
+}
+
+.trace-modal-ribbon {
+  background-color: #5D1838;
+  color: #FFFDF8;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ribbon-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #FFFDF8;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.trace-modal-body {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.expanded-sequence-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.modal-tile {
+  border: 1px solid #5D1838;
+  padding: 0.25rem 0.5rem;
+  background-color: #FFFDF8;
+}
+
+.modal-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #5D1838;
+}
+
+.trace-modal-footer {
+  border-top: 1px solid rgba(93, 24, 56, 0.2);
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(93, 24, 56, 0.02);
+}
+
+.count-info {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #5D1838;
+}
+
+.modal-download {
+  padding: 0.35rem 0.75rem;
+}
