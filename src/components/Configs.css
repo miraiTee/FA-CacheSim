@@ -6,25 +6,29 @@
 
 /* Inner Configuration Box Styles */
 .config-container {
-    width: 100%; /* Fills the 320px sidebar parent */
+    width: 100%;
     max-width: 320px;
-    background-color: #fff;
-    border: 3px solid #000;
+    background-color: #fffefc;
+    border: 3px solid #967e68;
     padding: 18px;
-    box-shadow: 6px 6px 0px #000;
-    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 4px 4px 0px #967e68;
+    font-family: 'Karla', sans-serif;
+    color: #967e68;
 }
 
-/* Header */
+/* Header - Restored Pastel Pink */
 .config-container h2 {
-    font-size: 1rem;
-    font-weight: 900;
+    font-family: 'Love Ya Like A Sister', serif;
+    font-size: 1.2rem;
+    font-weight: normal;
     text-align: center;
-    border-bottom: 3px solid #000;
+    border-bottom: 3px solid #967e68;
     text-transform: uppercase;
-    background: #f7a8b8;
+    background: #f7a8b8; /* Original Pink */
+    color: #fffefc;
     margin: -18px -18px 18px -18px;
     padding: 12px;
+    text-shadow: 1px 1px 0px #967e68;
 }
 
 /* Form Input Rows */
@@ -33,25 +37,26 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
-    font-size: 0.8rem;
-    font-weight: 900;
+    font-size: 0.85rem;
+    font-weight: bold;
     gap: 10px;
 }
 
-/* Shrink inputs/selects so text isn't crammed */
+/* Form Inputs & Selects */
 .field select,
 .field input {
     box-sizing: border-box;
     width: 180px;
     min-width: 180px;
     padding: 6px 8px;
-    font-family: inherit;
-    font-size: 0.8rem;
+    font-family: 'Karla', sans-serif;
+    font-size: 0.85rem;
     font-weight: bold;
-    border: 2px solid #000;
+    color: #967e68;
+    border: 2px solid #967e68;
     border-radius: 0px;
-    background-color: #fff;
-    box-shadow: 2px 2px 0px #000;
+    background-color: #fffefc;
+    box-shadow: 2px 2px 0px #f7a8b8; /* Pink shadow accent */
     outline: none;
 
     text-overflow: ellipsis;
@@ -60,43 +65,43 @@
 
 .field select:focus,
 .field input:focus {
-    background-color: #e0f7fa;
+    background-color: #e0f7fa; /* Original Focus Blue */
+    border-color: #5bcefa;
 }
 
 .field input:disabled {
-    background-color: #ddd;
-    color: #000;
+    background-color: #eee8db;
+    color: #b5a495;
     cursor: not-allowed;
 }
 
-/* Harsh Action Button */
+/* Action Button - Restored Pastel Blue & Harsh Hover Effects */
 .run-btn {
     display: block;
     width: 100%;
     margin-top: 16px;
     padding: 10px;
-    background-color: #5bcefa;
-    color: #fff;
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 900;
-    text-transform: uppercase;
+    background-color: #5bcefa; /* Original Blue */
+    color: #fffefc;
+    font-family: 'Love Ya Like A Sister', serif;
+    font-size: 1.1rem;
     letter-spacing: 1px;
-    border: 3px solid #000;
+    text-transform: uppercase;
+    border: 3px solid #967e68;
     border-radius: 0px;
     cursor: pointer;
-    box-shadow: 4px 4px 0px #000;
+    box-shadow: 4px 4px 0px #967e68;
     transition: all 0.05s ease;
 }
 
 .run-btn:hover {
-    background-color: #17252a;
-    color: #5cdb95;
+    background-color: #f7a8b8; /* Shifts to Pink on hover */
+    color: #fffefc;
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #000;
+    box-shadow: 6px 6px 0px #967e68;
 }
 
 .run-btn:active {
     transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px #000;
+    box-shadow: 2px 2px 0px #967e68;
 }
